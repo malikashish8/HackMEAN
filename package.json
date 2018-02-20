@@ -4,20 +4,20 @@
   "author": "Ashish Malik",
   "version": "0.0.1",
   "private": "false",
-
   "scripts": {
     "start": "nodejs Server.js"
   },
-
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.13.4",
     "mongoose": "^5.0.6"
   },
-
   "respository": {
     "type": "git",
     "url": "git+https://github.com/malikashish8/HackMEAN.git"
   },
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "nodemon": "^1.15.1"
+  }
 }

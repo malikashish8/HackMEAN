@@ -6,8 +6,8 @@ module.exports = function(app) {
 	.get(hackMEAN.list_all_users)
 	.post(hackMEAN.create_a_user);
 
-	app.route('/user/"userId')
+	app.route('/user/:username')
 	.get(hackMEAN.read_user_data)
-	.put(hackMEAN.update_user)
+	.put(hackMEAN.update_email)
 	.delete(hackMEAN.delete_user);
 };
