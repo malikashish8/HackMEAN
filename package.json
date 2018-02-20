@@ -5,6 +5,10 @@
   "version": "0.0.1",
   "private": "false",
 
+  "scripts": {
+    "start": "nodejs Server.js"
+  },
+
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.13.4",

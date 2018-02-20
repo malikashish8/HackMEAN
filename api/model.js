@@ -22,7 +22,8 @@ User.find({ username: /^admin/ }, function(err, admin){
 		var user1 = new User({ username: "admin", password: "SuperSecureAdminPassword123@123", email: ""});
 		user1.save().then(() => console.log("Admin user created in DB"));
 	} else{
-		console.log("Admin found" + admin.length)	
+		console.log("Admin found " + admin.length)	
 	}
 });
 
+module.exports = User

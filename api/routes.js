@@ -1,5 +1,5 @@
-moudle.exports = function(app) {
-	var hackMEAN = require('controller');
+module.exports = function(app) {
+	var hackMEAN = require('./controller');
 
 	//hackMEAN Routes
 	app.route('/user')
