@@ -42,7 +42,7 @@ exports.read_user_data = function(req,res){}
 exports.update_email = function(req,res){
   var username = req.body.username;
   var email = req.body.email;
-  //Check is username and email are provided in the query
+  //Check iF username and email are provided in the query
   if(!username || !email){
     res.json({"message":"You are not sending user data in the specified format!","type":"error"});
     return;
