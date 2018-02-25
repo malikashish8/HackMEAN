@@ -1,5 +1,8 @@
 var mongoose = require('mongoose'),
-  User = mongoose.model('User');
+  User = mongoose.model('User'),
+  Post = mongoose.model('Post'),
+  Comment = mongoose.model('Comment');
+
 
 exports.list_all_users = function(req,res) {
 	User.find({}, 'username',function(err,user){
@@ -72,3 +75,62 @@ exports.delete_user = function(req,res){
     res.json({message: 'User deleted', type:"success"});
   })
 }
+
+exports.list_all_posts = function(req,res){
+  Post.find({}, function(err, posts){
+    res.send(posts);
+  })
+}
+
+exports.new_post = function(req, res){
+  if(!req.body.user || !req.body.title || !req.body.body){
+    res.json({"message":"You are not sending user data in the specified format!","type":"error"});
+    return;
+  }
+  //Check if user exists in DB
+  User.findOne({"username":req.body.user},function(err,user){
+    if(!user){
+      res.json({message: "Invalid user", type:"error"});
+      return;
+    }
+  });
+
+  var thisPost = new Post({"author": req.body.user, "title": req.body.title, "body": req.body.body});
+  thisPost.time = new Date;
+  thisPost.save(function(err, task){
+    if(err){
+      res.json({message: 'Failed to create post', type:"error"})
+      console.log(err);
+      return;
+    }
+    res.json({message: 'Post posted', type:"success"});
+  });
+}
+exports.delete_post = function(req, res){
+  if(!req.body._id){
+    res.json({"message":"You are not sending user data in the specified format!","type":"error"});
+    return;
+  }
+  Post.findOne({_id: req.body._id},function(err, post){
+    if(err){
+      res.json(err);
+      return;
+    }
+    if(!post){
+      res.json({message: "Post not found!", type: "error"});
+      return;
+    }
+    Post.remove({_id: req.body._id},function(err){
+      if(err){
+        res.json(err);
+        return;
+      }
+        res.json({message:"Post deleted", type: "success"});
+      
+    })
+  })
+}
+
+exports.read_comments = function(){}
+exports.create_comment = function(){}
+exports.delete_comment = function(){}

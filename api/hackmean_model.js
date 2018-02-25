@@ -21,8 +21,46 @@ var userSchema = mongoose.Schema({
 	}
 });
 
+var postSchema = mongoose.Schema({
+	author: {
+		type: String,
+		required: true
+	},
+	title: {
+		type: String,
+		required: true
+	},
+	body: {
+		type: String,
+		required: true
+	},
+	time: {
+		type: Date,
+		required: true
+	}
+})
+var commentSchema = mongoose.Schema({
+	user: {
+		type: String,
+		required: true
+	},
+	message: {
+		type: String,
+		required:true
+	},
+	postId: {
+		type: String,
+		required: true
+	},
+	time: {
+		type: Date,
+		required: true
+	}
+})
 
 var User = mongoose.model('User', userSchema);
+var Post = mongoose.model('Post', postSchema);
+var Comment = mongoose.model('Comment', commentSchema);
 
 // Create admin user if not already present in the DB
 User.find({ username: /^admin/ }, function(err, admin){
@@ -37,4 +75,4 @@ User.find({ username: /^admin/ }, function(err, admin){
 	}
 });
 
-module.exports = User
+module.exports = User, Post, Comment;
