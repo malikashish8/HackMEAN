@@ -1,0 +1,48 @@
+<html ng-app="hackMean">
+    <head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+    <title>Node/Angular Todo App</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <style>
+        html                    { overflow-y:scroll; }
+        body                    { padding-top:50px; }
+        #todo-list              { margin-bottom:30px; }
+    </style>
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
+    <script src="core.js"></script>
+    </head>
+    <body ng-controller = "mainController">
+        <div class="container">
+            <div class="jumbotron text-center">
+                    <h1>Welcome to HackMEAN <span class="label label-info">{{ posts.length }}</span></h1>
+                </div>
+        
+                <!-- TODO LIST -->
+                <ul id="posts-list" class="conainer-fluid">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <div ng-repeat="post in posts">
+                            <div class="row">
+                                <span class="h4">{{post.title}}</span> by
+                                <span class="highlight">{{post.author}}</span>
+                                <p> {{ post.body }}</p>
+                                <span class="time">{{post.time}}</span>
+                                	
+                                <button ng-show="!editing[$post]" ng-click="remove($post)">remove</button>
+
+                            </div>
+                        </div>
+        
+                    </div>
+                </div>
+        </div>
+
+    </body>
+</html>

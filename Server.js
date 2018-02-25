@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 
 var routes = require('./api/hackmean_routes');
 routes(app);
+app.use(express.static('./public'));
 
 app.listen(port);
 
