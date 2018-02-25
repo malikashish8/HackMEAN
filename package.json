@@ -1,13 +1,14 @@
 {
-  "name": "HackMEAN",
+  "name": "hack_mean",
   "description": "Vulnerable application built on MEAN stack - MongoDB, Express, Angular and Node.js",
   "author": "Ashish Malik",
   "version": "0.0.1",
-  "private": "false",
+  "private": false,
   "scripts": {
     "start": "nodejs Server.js"
   },
   "dependencies": {
+    "angular": "^1.6.9",
     "body-parser": "^1.18.2",
     "express": "^4.13.4",
     "mongoose": "^5.0.6"

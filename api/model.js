@@ -5,15 +5,26 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var userSchema = mongoose.Schema({
-	username: String,
-	password: String,
-	email: String
+	username: { 
+		type:String,
+		unique: true,
+		required: true,
+		trim: true
+	},
+	password: {
+		type:String,
+		required: true
+	},
+	email: {
+		type: String,
+		trim: true,
+	}
 });
 
-//const User = mongoose.model('User', { name: String, password: String, email: String});
+
 var User = mongoose.model('User', userSchema);
 
-
+// Create admin user if not already present in the DB
 User.find({ username: /^admin/ }, function(err, admin){
 	if (err) {
 		return console.error(err); 
