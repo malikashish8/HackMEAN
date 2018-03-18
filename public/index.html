@@ -20,29 +20,38 @@
     <script src="core.js"></script>
     </head>
     <body ng-controller = "mainController">
+        <div ng-repeat="user in users">{{user.username}} - {{user.email}}<br/></div>
+        <label>name:
+            <input [(ngModel)]="users" placeholder="name">
+        </label>
         <div class="container">
             <div class="jumbotron text-center">
                     <h1>Welcome to HackMEAN <span class="label label-info">{{ posts.length }}</span></h1>
                 </div>
-        
-                <!-- TODO LIST -->
+               <!-- Posts -->
                 <ul id="posts-list" class="conainer-fluid">
                     <div class="col-sm-4 col-sm-offset-4">
                         <div ng-repeat="post in posts">
                             <div class="row">
-                                <span class="h4">{{post.title}}</span> by
-                                <span class="highlight">{{post.author}}</span>
+                                <h4>{{post.title}} -- {{post.author}}</h4> 
                                 <p> {{ post.body }}</p>
                                 <span class="time">{{post.time}}</span>
                                 	
                                 <button ng-show="!editing[$post]" ng-click="remove($post)">remove</button>
-
+                                <br>
+                                <!-- Comments -->
+                                <div ng-repeat="comment in comments">
+                                    <div ng-if="'a'=='b'">
+                                        whyyyyyyyyyyyyyyyyyyyyyy
+                                          {{comment.user}} says {{comment.message}} at {{comment.time}}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-        
                     </div>
                 </div>
         </div>
+        
 
     </body>
 </html>

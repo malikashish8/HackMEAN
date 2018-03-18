@@ -67,11 +67,8 @@ User.find({ username: /^admin/ }, function(err, admin){
 	if (err) {
 		return console.error(err); 
 	} else if (admin.length == 0){
-		console.log(admin.length)
 		var user1 = new User({ username: "admin", password: "SuperSecureAdminPassword123@123", email: ""});
 		user1.save().then(() => console.log("Admin user created in DB"));
-	} else{
-		console.log("Admin found " + admin.length)	
 	}
 });
 

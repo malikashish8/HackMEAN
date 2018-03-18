@@ -45,7 +45,7 @@ exports.read_user_data = function(req,res){}
 exports.update_email = function(req,res){
   var username = req.body.username;
   var email = req.body.email;
-  //Check iF username and email are provided in the query
+  //Check if username and email are provided in the query
   if(!username || !email){
     res.json({"message":"You are not sending user data in the specified format!","type":"error"});
     return;
@@ -131,6 +131,47 @@ exports.delete_post = function(req, res){
   })
 }
 
-exports.read_comments = function(){}
-exports.create_comment = function(){}
+exports.read_comments = function(req, res){
+  Comment.find({},function(err, comment){
+    if(!err){
+      res.json(comment);
+      return;
+    }
+    else res.json({message: "Some error occured!", type: "error"});
+  })
+}
+exports.create_comment = function(req, res){
+  var user = req.body.username;
+  var message = req.body.message;
+  var postId = req.body.postId;
+	if(!user || !message || !postId){
+    res.json({message:"You are not sending user data in the specified format!", type:"error"});
+    return;
+  }
+  var comment = new Comment({user:user, message: message, postId: postId, time: new Date()});
+  //fail if post does not exist
+  if(Post.findById(postId,function(err, post){
+    if(!post){
+      res.json({message:"PostId does not match any post", type:"error"});
+      return;
+    }
+    else{
+      //fail if user does not exist
+      if(User.findOne({username:user},function(err,existingUser){
+        if(!existingUser){
+          res.json({message:"User does not exist",type:"error"});
+          return;
+        } else {
+          comment.save(function(err, task) {
+            if (err) {
+              res.json(err.json);
+              return;
+            }
+            res.json({message:"Comment saved",type:"success"});
+            });
+        }
+      })); 
+    }
+  }));
+}
 exports.delete_comment = function(){}
