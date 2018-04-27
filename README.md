@@ -16,6 +16,6 @@ sudo docker run -d -p 27017:27017 -v /tmp/mongo_for_HackMEAN:/data/db mongo
 ```
 git pull https://github.com/malikashish8/HackMEAN.git
 cd HackMEAN
-npm install
+npm install --production
 npm start
 ```

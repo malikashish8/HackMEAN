@@ -9,6 +9,8 @@ module.exports = function(app) {
 	app.route('/post')
 	.get(hackMEAN.list_all_posts)
 	.post(hackMEAN.new_post)
+	
+	app.route('/post/:postId')
 	.delete(hackMEAN.delete_post);
 
 	app.route('/comment').

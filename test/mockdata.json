@@ -1,0 +1,36 @@
+{
+    "users":[{
+        "username": "Ramu",
+        "password": "Ramu123",
+        "email": "Ramu@gmail.com"
+    },
+    {
+        "username": "Joe",
+        "password": "jo123",
+        "email": "jonny@gmail.com"
+    },
+    {
+        "username": "Alice",
+        "password": "Alice_secure123",
+        "email": "Alice@gmail.com"
+    },
+    {
+        "username": "j0ker",
+        "password": "h@ck_m3_1f_y0u_c@n",
+        "email": "cnaakdkkdowi@10minmail.com"
+    }
+
+    ],
+    "posts": [{
+        "author": "",
+        "title": "Can you make sense of This?",
+        "body": "Subjects to ecstatic children he. Could ye leave up as built match. Dejection agreeable attention set suspected led offending. Admitting an performed supposing by. Garden agreed matter are should formed temper had. Full held gay now roof whom such next was. Ham pretty our people moment put excuse narrow. Spite mirth money six above get going great own. Started now shortly had for assured hearing expense. Led juvenile his laughing speedily put pleasant relation offering.\n\nPleased him another was settled for. Moreover end horrible endeavor entrance any families. Income appear extent on of thrown in admire. Stanhill on we if vicinity material in. Saw him smallest you provided ecstatic supplied. Garret wanted expect remain as mr. Covered parlors concern we express in visited to do. Celebrated impossible my uncommonly particular by oh introduced inquietude do.",
+        "time": ""
+    }],
+    "comments":[{
+        "user": "Alice",
+        "message": "Are you serious",
+        "postId": "",
+        "time": ""
+    }]
+}

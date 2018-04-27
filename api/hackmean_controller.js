@@ -93,21 +93,27 @@ exports.new_post = function(req, res){
       res.json({message: "Invalid user", type:"error"});
       return;
     }
-  });
-
-  var thisPost = new Post({"author": req.body.user, "title": req.body.title, "body": req.body.body});
-  thisPost.time = new Date;
-  thisPost.save(function(err, task){
-    if(err){
-      res.json({message: 'Failed to create post', type:"error"})
+    else if(err){
       console.log(err);
+      res.json({message: 'Failed to connnect to DB', type: "error"});
       return;
     }
-    res.json({message: 'Post posted', type:"success"});
+    var thisPost = new Post({"author": req.body.user, "title": req.body.title, "body": req.body.body});
+    thisPost.time = new Date;
+    thisPost.save(function(err, task){
+      if(err){
+        res.json({message: 'Failed to create post', type:"error"});
+        console.log(err);
+        return;
+      }
+      res.json({message: 'Post posted', type:"success"});
+    });
   });
 }
 exports.delete_post = function(req, res){
+  //res.set("Content-Type","application/json");
   if(!req.body._id){
+    res.status(400);
     res.json({"message":"You are not sending user data in the specified format!","type":"error"});
     return;
   }

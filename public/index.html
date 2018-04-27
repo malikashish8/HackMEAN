@@ -4,14 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
 
-    <title>Node/Angular Todo App</title>
+    <title>HackMEAN</title>
 
     <!-- SCROLLS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
     <style>
-        html                    { overflow-y:scroll; }
-        body                    { padding-top:50px; }
-        #todo-list              { margin-bottom:30px; }
+        
+        
     </style>
 
     <!-- SPELLS -->
@@ -24,34 +23,27 @@
         <label>name:
             <input [(ngModel)]="users" placeholder="name">
         </label>
-        <div class="container">
+        <div class="container-fluid">
             <div class="jumbotron text-center">
                     <h1>Welcome to HackMEAN <span class="label label-info">{{ posts.length }}</span></h1>
-                </div>
-               <!-- Posts -->
-                <ul id="posts-list" class="conainer-fluid">
-                    <div class="col-sm-4 col-sm-offset-4">
-                        <div ng-repeat="post in posts">
-                            <div class="row">
-                                <h4>{{post.title}} -- {{post.author}}</h4> 
-                                <p> {{ post.body }}</p>
-                                <span class="time">{{post.time}}</span>
-                                	
-                                <button ng-show="!editing[$post]" ng-click="remove($post)">remove</button>
-                                <br>
-                                <!-- Comments -->
-                                <div ng-repeat="comment in comments">
-                                    <div ng-if="'a'=='b'">
-                                        whyyyyyyyyyyyyyyyyyyyyyy
-                                          {{comment.user}} says {{comment.message}} at {{comment.time}}
-                                    </div>
-                                </div>
-                            </div>
+            </div>
+            <!-- Posts -->
+            <div id="posts-list" class="text-left">        
+                <div ng-repeat="post in posts" class="row col-md-12 col-lg1">            
+                    <h4 class="text-center">{{post.title}} <sub>({{post.author}})</sub></h4> 
+                    <blockquote>{{ post.body }}</blockquote>
+                    <span>{{post.time}}</span>
+                        
+                    <button ng-click="deletePost(post._id)">remove</button>
+                    <br>
+                    <!-- Comments -->
+                    <div ng-repeat="comment in comments">
+                        <div ng-show="comment.postId == post._id">
+                                <b>{{comment.user}}</b> commented <b>{{comment.message}}</b> at {{comment.time}}
                         </div>
-                    </div>
-                </div>
-        </div>
-        
-
+                    </div>                            
+                </div>    
+            </div>
+        </div>    
     </body>
 </html>

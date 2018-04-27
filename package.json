@@ -5,13 +5,17 @@
   "version": "0.0.1",
   "private": false,
   "scripts": {
-    "start": "nodejs Server.js"
+    "start": "nodejs Server.js",
+    "debug": "nodemon Server.js"
   },
   "dependencies": {
     "angular": "^1.6.9",
     "body-parser": "^1.18.2",
     "express": "^4.13.4",
-    "mongoose": "^5.0.6"
+    "fs": "0.0.1-security",
+    "lodash": "^4.17.10",
+    "mongoose": "^5.0.6",
+    "morgan": "^1.9.0"
   },
   "respository": {
     "type": "git",
@@ -19,6 +23,7 @@
   },
   "license": "UNLICENSED",
   "devDependencies": {
+    "@angular/cli": "^1.7.4",
     "nodemon": "^1.15.1"
   }
 }
