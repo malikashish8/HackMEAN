@@ -1,7 +1,8 @@
 var mongoose = require('mongoose'),
   User = mongoose.model('User'),
   Post = mongoose.model('Post'),
-  Comment = mongoose.model('Comment');
+  Comment = mongoose.model('Comment'),
+  url = require("url");
 
 
 exports.list_all_users = function(req,res) {
@@ -39,9 +40,10 @@ exports.create_a_user = function(req,res){
     
   }
 }
-//
+
 
 exports.read_user_data = function(req,res){}
+exports.update_password = function(req,res){}
 exports.update_email = function(req,res){
   var username = req.body.username;
   var email = req.body.email;
@@ -112,22 +114,25 @@ exports.new_post = function(req, res){
 }
 exports.delete_post = function(req, res){
   //res.set("Content-Type","application/json");
-  if(!req.body._id){
+  if(!req.params.postId){
     res.status(400);
     res.json({"message":"You are not sending user data in the specified format!","type":"error"});
     return;
   }
-  Post.findOne({_id: req.body._id},function(err, post){
+  Post.findOne({_id: req.params.postId},function(err, post){
     if(err){
+      res.status(500);
       res.json(err);
       return;
     }
     if(!post){
+      res.status(404);
       res.json({message: "Post not found!", type: "error"});
       return;
     }
-    Post.remove({_id: req.body._id},function(err){
+    Post.remove({_id: req.params.postId},function(err){
       if(err){
+        res.status(500);
         res.json(err);
         return;
       }

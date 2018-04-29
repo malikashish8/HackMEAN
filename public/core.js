@@ -25,8 +25,11 @@ function mainController($scope, $http) {
         $http.delete('/post/'+ postId).success(function(data){
             console.log("Post Delete Success "+data);
             mainController($scope,$http);
+            addSuccessMessage(data.message);
         }).error(function(data){
-            alert(data.status);
+            addErrorMessage(data.message);
         }) 
     }
+
+
 }

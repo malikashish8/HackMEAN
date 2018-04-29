@@ -4,7 +4,9 @@ module.exports = function(app) {
 	//hackMEAN Routes
 	app.route('/user')
 	.get(hackMEAN.list_all_users)
-	.post(hackMEAN.create_a_user);
+	.post(hackMEAN.create_a_user)
+	.put(hackMEAN.update_email)
+	.put(hackMEAN.update_password);
 
 	app.route('/post')
 	.get(hackMEAN.list_all_posts)
@@ -20,6 +22,5 @@ module.exports = function(app) {
 
 	app.route('/user/:username')
 	.get(hackMEAN.read_user_data)
-	.put(hackMEAN.update_email)
 	.delete(hackMEAN.delete_user);
 };

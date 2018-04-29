@@ -7,18 +7,18 @@ User = mongoose.model('User'),
 
 exports.initMock = function(){
 
-    fs.readFile("./test/mockdata.json",'utf8', function(err,data){
-    data = JSON.parse(data);
+    fs.readFile("./test/mockdata.json",'utf8', function(err,mockData){
+    mockData = JSON.parse(mockData);
     //catching all promise rejections since users requires unique name
-    data.users.forEach(user => { new User(user).save().catch(() => {}); })
-    data.posts.forEach(post => {
+    mockData.users.forEach(user => { new User(user).save().catch(() => {}); })
+    mockData.posts.forEach(post => {
         User.find({}, 'username',function(err,all_users){
             post.author = _.sample(all_users).username;
             post.time = new Date();
             new Post(post).save();
         });
     })
-    data.comments.forEach(comment => {
+    mockData.comments.forEach(comment => {
         User.find({}, 'username',function(err,all_users){
             comment.user=_.sample(all_users).username;
             comment.time = new Date();
