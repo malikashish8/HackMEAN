@@ -18,7 +18,6 @@ function mainController($scope, $http) {
     $http.get('/comment')
         .success(function(data) {
             $scope.comments = data;
-            console.log(this);
         })
     $scope.deletePost = function(postId) {
         console.log("Deleting Post: "+postId);
@@ -29,6 +28,25 @@ function mainController($scope, $http) {
         }).error(function(data){
             addErrorMessage(data.message);
         }) 
+    }
+    $scope.deleteComment = function(commentId) {
+        console.log("Deleting Comment: "+commentId);
+        $http.delete('/comment/'+commentId).success(function(data){
+            console.log("Comment Delete Success "+data);
+            mainController($scope,$http);
+            addSuccessMessage(data.message);
+        }).error(data => {
+            addErrorMessage(data);
+        })
+    }
+    $scope.submitNewPost = function(form) {
+        var title = (document.getElementById("newPostTitle").value);
+        var body = (document.getElementById("newPostBody").value);
+        $http.post('/post', {title: title, body: body}).success(data => {
+            console.log("New post created")
+        }).error(err =>{
+            console.log(err);
+        })
     }
 
 

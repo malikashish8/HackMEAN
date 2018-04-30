@@ -135,7 +135,7 @@ exports.delete_post = function(req, res){
         res.status(500);
         res.json(err);
         return;
-      }
+      } else
         res.json({message:"Post deleted", type: "success"});
       
     })
@@ -143,12 +143,13 @@ exports.delete_post = function(req, res){
 }
 
 exports.read_comments = function(req, res){
+    console.log("Comments requested");
   Comment.find({},function(err, comment){
     if(!err){
       res.json(comment);
       return;
     }
-    else res.json({message: "Some error occured!", type: "error"});
+    else res.json({message: "Some error occurred!", type: "error"});
   })
 }
 exports.create_comment = function(req, res){
@@ -185,4 +186,23 @@ exports.create_comment = function(req, res){
     }
   }));
 }
-exports.delete_comment = function(){}
+exports.delete_comment = function(req, res){
+    if(!req.params.commentId){
+        res.status(400);
+        res.json({"message":"You are not sending user data in the specified format!","type":"error"});
+        return;
+    }
+    Comment.findOne({_id: req.params.commentId}, function(err, comment) {
+        if(err){
+            res.status(500);
+            res.json({message: "Something went wrong", type: "error"});
+        } else if(comment){
+            Comment.remove({_id: req.params.commentId}, (err, commentDeleted) =>{
+            });
+            res.json({message: "Comment deleted", type: "success"});
+        } else if(!comment) {
+            res.status(404);
+            res.json({message: "Comment does not exist", type: "error"})
+        }
+    })
+}

@@ -26,11 +26,76 @@
         "title": "Can you make sense of This?",
         "body": "Subjects to ecstatic children he. Could ye leave up as built match. Dejection agreeable attention set suspected led offending. Admitting an performed supposing by. Garden agreed matter are should formed temper had. Full held gay now roof whom such next was. Ham pretty our people moment put excuse narrow. Spite mirth money six above get going great own. Started now shortly had for assured hearing expense. Led juvenile his laughing speedily put pleasant relation offering.\n\nPleased him another was settled for. Moreover end horrible endeavor entrance any families. Income appear extent on of thrown in admire. Stanhill on we if vicinity material in. Saw him smallest you provided ecstatic supplied. Garret wanted expect remain as mr. Covered parlors concern we express in visited to do. Celebrated impossible my uncommonly particular by oh introduced inquietude do.",
         "time": ""
-    }],
+    },
+        {
+            "title": "AngularJS",
+            "body": "AngularJS (commonly referred to as \"Angular.js\" or \"AngularJS 1.X\") is a JavaScript-based open-source front-end web application framework mainly maintained by Google and by a community of individuals and corporations to address many of the challenges encountered in developing single-page applications. The JavaScript components complement Apache Cordova, a framework used for developing cross-platform mobile apps. It aims to simplify both the development and the testing of such applications by providing a framework for client-side model–view–controller (MVC) and model–view–viewmodel (MVVM) architectures, along with components commonly used in rich Internet applications. In 2014, the original AngularJS team began working on Angular (Application Platform)."
+        },
+        {
+            "title": "Node.js",
+            "body": "Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code server-side. Historically, JavaScript was used primarily for client-side scripting, in which scripts written in JavaScript are embedded in a webpage's HTML and run client-side by a JavaScript engine in the user's web browser. Node.js lets developers use JavaScript for server-side scripting—running scripts server-side to produce dynamic web page content before the page is sent to the user's web browser. Consequently, Node.js represents a \"JavaScript everywhere\" paradigm,[5] unifying web application development around a single programming language, rather than different languages for server side and client side scripts."
+        },
+        {
+            "title": "MongoDB",
+            "body": "MongoDB is a free and open-source cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with schemas. MongoDB is developed by MongoDB Inc., and is published under a combination of the GNU Affero General Public License and the Apache License."
+        },
+        {
+            "title": "Express",
+            "body": "Express.js, or simply Express, is a web application framework for Node.js, released as free and open-source software under the MIT License. It is designed for building web applications and APIs.[1] It has been called the de facto standard server framework for Node.js.[2] The original author, TJ Holowaychuk, described it as a Sinatra-inspired server,[3] meaning that it is relatively minimal with many features available as plugins. Express is the backend part of the MEAN stack, together with MongoDB database and AngularJS frontend framework."
+        }
+    ],
     "comments":[{
         "user": "Alice",
         "message": "Are you serious",
         "postId": "",
         "time": ""
-    }]
+    },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        }]
 }

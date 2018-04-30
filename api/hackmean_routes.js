@@ -17,7 +17,9 @@ module.exports = function(app) {
 
 	app.route('/comment').
 	get(hackMEAN.read_comments)
-	.post(hackMEAN.create_comment)
+	.post(hackMEAN.create_comment);
+
+	app.route('/comment/:commentId')
 	.delete(hackMEAN.delete_comment);
 
 	app.route('/user/:username')

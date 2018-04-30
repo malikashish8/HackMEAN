@@ -5,6 +5,7 @@ var express = require('express'),
   user = require('./api/hackmean_model'),
   bodyParser = require('body-parser');
 var morgan = require('morgan');
+var compression = require('compression')
 
 //connect to mongoose
 mongoose.Promise = global.Promise;
@@ -15,6 +16,8 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
@@ -29,4 +32,4 @@ console.log('HackMEAN user RESTful API server started on: '+ port);
 
 //for testing purposes
 mock = require('./test/initMock');
-mock.initMock();
+//mock.initMock();

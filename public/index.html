@@ -32,7 +32,7 @@
                 </button>
                 <a class="navbar-brand" href="#">HackMEAN</a>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
+            <div id="navbar" class="navbar-collapse collapse nav-inverse">
                 <form class="navbar-form navbar-right">
                     <div class="form-group">
                         <input type="text" placeholder="Username" class="form-control" autocomplete="off" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">
@@ -46,30 +46,60 @@
         </div>
     </nav>
 
-        <div class="container-fluid">
+        <div class="container-fluid" style="margin:5%">
             <div class="jumbotron text-center">
                     <h1>Welcome to HackMEAN <span class="label label-info">{{ posts.length }}</span></h1>
             </div>
             <!-- alert -->
-            <div class="alert alert-danger" id="error-message" role="alert"></div>
-            <div class="alert alert-success" id="success-message" role="alert"></div>
+            <div class="alert alert-danger" id="error-message" role="alert" style="position:fixed; visibility:hidden;   top: 85%;    left: 100%;    margin-left: -150px;    width: 300px;    z-index: 9999;"></div>
+            <div class="alert alert-success" id="success-message" role="alert" style="position:fixed;  visibility:hidden;    top: 90%;    left: 100%;    margin-left: -150px;    width: 300px;    z-index: 9999;"></div>
+            <!-- New Post -->
+            <div class="text-right">
+            <button onclick="openNewPostForm()" class="btn btn-default" style="color:green; font-size:33px; background-color: #eeeeee; text-shadow: 5px 5px 6px lightgray"><span class="glyphicon glyphicon-plus" aria-hidden="false" ></span> Post</button>
+            </div>
+            <div id="newPostForm" style="position:fixed; top:20%; left:10%; right:10%; visibility:hidden; background-color: #e6fdea; z-index:9998; border-radius: 15px; border-color: black; border-width: thick">
+                <div style="text-align: right;"><button style="color: red" onclick=closeNewPostForm(); class="btn glyphicon glyphicon-remove"></button></div>
+                <div style="margin:5%">
+
+                <form>
+                    <h3 style="text-align: center">New Post</h3>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon" id="sizing-addon1">Title: </span>
+                        <input type="text" class="form-control" placeholder="Title" aria-describedby="sizing-addon1" id="newPostTitle">
+                    </div>
+                    <br/>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="sizing-addon2">Post<br/>Body: </span>
+                        <textarea type="text" class="form-control" placeholder="Post Body goes here..." aria-describedby="sizing-addon2" cols="100" rows="5" id="newPostBody">
+                        </textarea>
+                    </div>
+                    <br/><div class="text-center"><button class="btn btn-success" ng-click="submitNewPost()">Submit</button></div>
+                </form>
+                </div>
+            </div>
+            <br/>
             <!-- Posts -->
-            <div id="posts-list" class="text-left panel">        
-                <div ng-repeat="post in posts" >            
-                    <h3 class="text-center"><span class="label label-default">{{post.title}}</span> <sub>({{post.author}})</sub></h3>
+            <div id="posts-list" class="text-left">
+                <div ng-repeat="post in posts" class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="text-center">{{post.title}} <sub>({{post.author}})</sub></h3>
+                    </div>
                     <div class="panel-body">
-                    {{ post.body }}
+                        {{ post.body }}
+                        <div class="text-center" class="panel-info">
+                            {{post.time}} <button class="btn btn-danger" ng-click="deletePost(post._id)">Delete Post</button>
+                        </div>
                     </div>
-                        {{post.time}}
-                        <button class="btn btn-default" ng-click="deletePost(post._id)">remove</button>
-                        <div class="panel-footer">
-                        <!-- Comments -->
-                        <div ng-repeat="comment in comments">
-                            <div ng-show="comment.postId == post._id">
-                                    <b>{{comment.user}}</b> commented <b>{{comment.message}}</b> at {{comment.time}}
-                            </div>
-                        </div>                            
+                    <div class="panel-footer text-center" style="left:50%">
+                    <!-- Comments -->
+                    <div ng-repeat="comment in comments">
+                        <div ng-show="comment.postId == post._id">
+                                <b>{{comment.user}}</b> commented <b>{{comment.message}}</b> at {{comment.time}}
+                                <button class="btn btn-danger" ng-click="deleteComment(comment._id)">Delete Comment</button>
+                                <br/><br/>
+                        </div>
                     </div>
+                </div>
                 </div>    
             </div>
         </div>    
