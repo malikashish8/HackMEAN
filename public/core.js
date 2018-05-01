@@ -19,21 +19,22 @@ function mainController($scope, $http) {
         .success(function(data) {
             $scope.comments = data;
         })
-    $scope.deletePost = function(postId) {
-        console.log("Deleting Post: "+postId);
+    $scope.deletePost = function(post) {
+        var postId = post._id;
         $http.delete('/post/'+ postId).success(function(data){
             console.log("Post Delete Success "+data);
-            mainController($scope,$http);
+            $scope.posts.splice($scope.posts.indexOf(post), 1);
             addSuccessMessage(data.message);
         }).error(function(data){
             addErrorMessage(data.message);
         }) 
     }
-    $scope.deleteComment = function(commentId) {
+    $scope.deleteComment = function(comment) {
+        var commentId = comment._id;
         console.log("Deleting Comment: "+commentId);
         $http.delete('/comment/'+commentId).success(function(data){
             console.log("Comment Delete Success "+data);
-            mainController($scope,$http);
+            $scope.comments.splice($scope.comments.indexOf(comment), 1);
             addSuccessMessage(data.message);
         }).error(data => {
             addErrorMessage(data);
@@ -42,10 +43,14 @@ function mainController($scope, $http) {
     $scope.submitNewPost = function(form) {
         var title = (document.getElementById("newPostTitle").value);
         var body = (document.getElementById("newPostBody").value);
-        $http.post('/post', {title: title, body: body}).success(data => {
-            console.log("New post created")
+        var newPost = {title: title, body: body, user: $scope.users[0].username};
+        $http.post('/post', newPost).success((data) => {
+            console.log("New post created "+data);
+            $scope.posts.push(data.post);
+            closeNewPostForm();
+            addSuccessMessage(data.message);
         }).error(err =>{
-            console.log(err);
+            addErrorMessage(err);
         })
     }
 

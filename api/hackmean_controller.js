@@ -86,17 +86,20 @@ exports.list_all_posts = function(req,res){
 
 exports.new_post = function(req, res){
   if(!req.body.user || !req.body.title || !req.body.body){
+    res.status(400);
     res.json({"message":"You are not sending user data in the specified format!","type":"error"});
     return;
   }
   //Check if user exists in DB
   User.findOne({"username":req.body.user},function(err,user){
     if(!user){
+      res.status(400);
       res.json({message: "Invalid user", type:"error"});
       return;
     }
     else if(err){
       console.log(err);
+      res.status(500);
       res.json({message: 'Failed to connnect to DB', type: "error"});
       return;
     }
@@ -104,11 +107,12 @@ exports.new_post = function(req, res){
     thisPost.time = new Date;
     thisPost.save(function(err, task){
       if(err){
+        res.status(500);
         res.json({message: 'Failed to create post', type:"error"});
         console.log(err);
         return;
       }
-      res.json({message: 'Post posted', type:"success"});
+      res.json({message: 'Post posted', post: task, type:"success"});
     });
   });
 }
