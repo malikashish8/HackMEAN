@@ -48,6 +48,24 @@ function mainController($scope, $http) {
             console.log(err);
         })
     }
+    $scope.login = function() {
+        var username = (document.getElementById("username").value);
+        var password = (document.getElementById("password").value);
+        $http.post('/login', {username: username, password: password}).success(data =>{
+            if(data.user !== undefined){
+                addSuccessMessage(data.message);
+                // add login logic
+                
+                $scope.loggedIn = true;
+            } else if(data.message !== undefined){
+                console.log("Data: "+data);
+                addErrorMessage(data.message);
+            } else {
+                addErrorMessage("Connection failed!");
+                console.log("no data");
+            }
+        })
+    }
 
 
 }

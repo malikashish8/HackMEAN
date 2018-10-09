@@ -25,4 +25,7 @@ module.exports = function(app) {
 	app.route('/user/:username')
 	.get(hackMEAN.read_user_data)
 	.delete(hackMEAN.delete_user);
+
+	app.route('/login')
+	.post(hackMEAN.login);
 };

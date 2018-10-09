@@ -13,6 +13,16 @@ exports.list_all_users = function(req,res) {
 	})
 }
 
+exports.login = function(req,res) {
+  User.findOne({"username":req.body.username, "password": req.body.password}, function(err,data){
+    if(err || data === null){
+      res.status(401).json({"message":"login failed"});
+    }
+    else
+      res.json({"message":"login successful", "user":data.username});
+  });
+}
+
 exports.create_a_user = function(req,res){
   var username = req.body.username;
   var password = req.body.password;
