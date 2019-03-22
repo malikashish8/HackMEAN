@@ -1,4 +1,4 @@
-language: bash
+dist: trusty
 addons:
   sonarcloud:
     token:
