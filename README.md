@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/malikashish8/HackMEAN.svg?branch=master)](https://travis-ci.com/malikashish8/HackMEAN)
 
 # HackMean
 Intentionally vulnerable app built on MEAN stack (MongoDB, Express, Angular and Node.js) 
