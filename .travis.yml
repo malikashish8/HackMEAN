@@ -1,0 +1,5 @@
+dist: trusty
+addons:
+  sonarcloud:
+    token:
+      secure: $sonar.login
