@@ -1,5 +1,5 @@
-dist: trusty
+language: bash
 addons:
   sonarcloud:
     token:
-      secure: $sonar.login
+      secure: $SONAR_TOKEN
