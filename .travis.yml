@@ -3,3 +3,5 @@ addons:
   sonarcloud:
     token:
       secure: $SONAR_TOKEN
+script:
+  - sonar-scanner
