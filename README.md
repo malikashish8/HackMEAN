@@ -10,12 +10,12 @@ Intentionally vulnerable app built on MEAN stack (MongoDB, Express, Angular and 
 
 You can spin up a docker container for mongoDB and map the data folder from the host machine to the container as in the example below:
 ```
-sudo docker run -d -p 27017:27017 -v /tmp/mongo_for_HackMEAN:/data/db mongo
+docker run -d -p 27017:27017 -v HackMEAN_mongo:/data/db --name hackMEAN_mongo mongo
 ```
 
 ## Installation
 ```
-git pull https://github.com/malikashish8/HackMEAN.git
+git clone https://github.com/malikashish8/HackMEAN.git
 cd HackMEAN
 npm install --production
 npm start

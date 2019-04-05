@@ -6,17 +6,22 @@
   "private": false,
   "scripts": {
     "start": "nodejs Server.js",
-    "debug": "nodemon Server.js"
+    "debug": "nodemon Server.js",
+    "test": "mocha"
   },
   "dependencies": {
     "angular": "^1.6.9",
+    "bcrypt": "^3.0.5",
     "body-parser": "^1.18.2",
     "compression": "^1.7.2",
     "express": "^4.13.4",
     "fs": "0.0.1-security",
     "lodash": "^4.17.10",
     "mongoose": "^5.0.6",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "ts": "^0.2.2",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.4.1"
   },
   "respository": {
     "type": "git",
@@ -24,7 +29,15 @@
   },
   "license": "UNLICENSED",
   "devDependencies": {
-    "@angular/cli": "^1.7.4",
-    "nodemon": "^1.15.1"
+    "@angular/cli": "^7.3.8",
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10"
   }
 }

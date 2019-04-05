@@ -1,15 +1,21 @@
-var express = require('express'),
-  app = express(),
-  port = process.env.PORT || 8081,
-  mongoose = require('mongoose'),
-  user = require('./api/hackmean_model'),
-  bodyParser = require('body-parser');
+var express = require('express');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 var morgan = require('morgan');
-var compression = require('compression')
+var compression = require('compression');
+
+var user = require('./api/hackmean_model');
+var config = require('./config.json');
+
+var app = express();
+var port = config.listenPort;
+
+
+
 
 //connect to mongoose
 mongoose.Promise = global.Promise;
-mongoose.connect ('mongodb://localhost/mydb');
+mongoose.connect (config.mongoURL);
 //allow cors
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -31,5 +37,4 @@ app.listen(port);
 console.log('HackMEAN user RESTful API server started on: '+ port);
 
 //for testing purposes
-mock = require('./test/initMock');
-//mock.initMock();
+require('./test/populateMock').populateMock();
