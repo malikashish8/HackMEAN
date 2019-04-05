@@ -66,18 +66,4 @@ var User = mongoose.model('User', userSchema);
 var Post = mongoose.model('Post', postSchema);
 var Comment = mongoose.model('Comment', commentSchema);
 
-// Create admin user if not already present in the DB
-// User.find({ username: /^admin/ }, function (err, admin) {
-//   if (err) {
-//     return console.error(err);
-//   } else if (admin.length === 0) {
-//     var admin = new User({ 
-//       username: 'admin', 
-//       password: bcrypt.hashSync('SuperSecureAdminPassword123@123',config.bcrypt_rounds), 
-//       email: 'admin@example.com' 
-//     });
-//     admin.save().then(() => console.log('Admin user created in DB'));
-//   }
-// });
-
 module.exports = { User, Post, Comment };
