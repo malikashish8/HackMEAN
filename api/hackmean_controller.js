@@ -57,9 +57,8 @@ function throwError(res, err){
   res.status(responseCode);
   res.json({ 'message': err.message });
 }
-class InvalidRequestFormatError extends Error{
+class InvalidRequestFormatError extends Error{}
 
-}
 exports.read_user_data = function (req, res) {}
 exports.update_password = function (req, res) {
   var username = req.params.username;
@@ -67,29 +66,37 @@ exports.update_password = function (req, res) {
   var newPassword = req.body.newPassword;
   // Check if username and email are provided in the query
   if (!username || !password || !newPassword) {
-    throwError ( res, new InvalidRequestFormatError ('You are not sending user data in the specified format!'));
+    throwError ( res, new InvalidRequestFormatError ('invalid format'));
     return;
   }
   // Find the user in the DB
   User.findOne({ 'username': username }, function (err, thisUser) {
     // If user not found
     if (!thisUser) {
-      res.json({ 'message': 'User not found!', 'type': 'error' });
+      res.status(400).json({ 'message': 'User not found!' });
       return;
     }
     // Validate Password
-    User.findOneAndUpdate(
-      { 'username': username, 'password': bcrypt.hashSync(password, config.bcrypt_rounds) },
-      { 'password': bcrypt.hashSync(newPassword, config.bcrypt_rounds) }, 
-      function (err, user) {
-      if (err) {
-        res.send(err);
-        return;
+    bcrypt.compare(password, thisUser.password, (err, isSame) => {
+      if(isSame){
+        User.findOneAndUpdate(
+          { 'username': username },
+          { 'password': bcrypt.hashSync(newPassword, config.bcrypt_rounds) }, 
+          function (err, user) {
+          if (err) {
+            res.status(403).json({'message': err.message})
+            return;
+          }
+          res.json({ 'message': 'User detail updated.', 'type': 'success' });
+        })
       }
-      res.json({ 'message': 'User detail updated.', 'type': 'success' });
+      else {
+        res.status(403).json("Passwords do not match!");
+      }
     })
   })
 }
+
 exports.delete_user = function (req, res) {
   User.remove({ 'username': res.body.username }, function (err, user) {
     if (err) { res.send(err); }

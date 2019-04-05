@@ -19,9 +19,8 @@
     "lodash": "^4.17.10",
     "mongoose": "^5.0.6",
     "morgan": "^1.9.0",
-    "ts": "^0.2.2",
-    "tsc": "^1.20150623.0",
-    "typescript": "^3.4.1"
+    "typescript": "^3.4.1",
+    "winston": "^3.2.1"
   },
   "respository": {
     "type": "git",

@@ -6,12 +6,11 @@ var compression = require('compression');
 
 var user = require('./api/hackmean_model');
 var config = require('./config.json');
+var loginit = require('./api/util/logger');
+var logger = require('winston').loggers.get('myLogger');
 
 var app = express();
 var port = config.listenPort;
-
-
-
 
 //connect to mongoose
 mongoose.Promise = global.Promise;
@@ -34,7 +33,7 @@ app.use(express.static('./public'));
 
 app.listen(port);
 
-console.log('HackMEAN user RESTful API server started on: '+ port);
+logger.info('HackMEAN user RESTful API server started on: '+ port);
 
-//for testing purposes
+// pre-populate db
 require('./test/populateMock').populateMock();
