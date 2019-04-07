@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const config  = require('../config.json');
+'use strict';
 
-mongoose.connect(config.mongoURL);
+const mongoose = require('mongoose');
+
+mongoose.connect(global.gConfig.mongoURL, { useCreateIndex: true, useNewUrlParser: true });
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));

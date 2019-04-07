@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
+var initMongoose = require('./hackmean_model');
 var User = mongoose.model('User');
 var Post = mongoose.model('Post');
 var Comment = mongoose.model('Comment');
-var url = require('url');
+
 var bcrypt = require('bcrypt');
-var config = require('../config.json')
 
 exports.list_all_users = function (req, res) {
   User.find({}, 'username', function (err, user) {
@@ -37,7 +37,7 @@ exports.create_a_user = function (req, res) {
       // Create user
       var newUser = new User({ 
         'username': username, 
-        'password': bcrypt.hashSync(password, config.bcrypt_rounds),
+        'password': bcrypt.hashSync(password, gConfig.bcrypt_rounds),
         'email': email 
       })
       newUser.save(function (err, task) {
@@ -50,6 +50,7 @@ exports.create_a_user = function (req, res) {
     })
   }
 }
+
 function throwError(res, err){
   var responseCode = 200;
   if(err instanceof InvalidRequestFormatError)
@@ -57,6 +58,7 @@ function throwError(res, err){
   res.status(responseCode);
   res.json({ 'message': err.message });
 }
+
 class InvalidRequestFormatError extends Error{}
 
 exports.read_user_data = function (req, res) {}
@@ -81,7 +83,7 @@ exports.update_password = function (req, res) {
       if(isSame){
         User.findOneAndUpdate(
           { 'username': username },
-          { 'password': bcrypt.hashSync(newPassword, config.bcrypt_rounds) }, 
+          { 'password': bcrypt.hashSync(newPassword, gConfig.bcrypt_rounds) }, 
           function (err, user) {
           if (err) {
             res.status(403).json({'message': err.message})
@@ -165,7 +167,6 @@ exports.delete_post = function (req, res) {
 }
 
 exports.read_comments = function (req, res) {
-  console.log('Comments requested');
   Comment.find({}, function (err, comment) {
     if (!err) {
       res.json(comment);

@@ -4,17 +4,16 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var compression = require('compression');
 
-var user = require('./api/hackmean_model');
 var config = require('./config.json');
-var loginit = require('./api/util/logger');
-var logger = require('winston').loggers.get('myLogger');
-
+const environment = process.env.NODE_ENV || 'dev';
+global.gConfig = config[environment];
+var initLogger = require('./api/util/logger');
 var app = express();
-var port = config.listenPort;
 
-//connect to mongoose
+// check mongo connection
 mongoose.Promise = global.Promise;
-mongoose.connect (config.mongoURL);
+mongoose.connect(gConfig.mongoURL, { useCreateIndex: true, useNewUrlParser: true });
+
 //allow cors
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -27,13 +26,13 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
 var routes = require('./api/hackmean_routes');
-app.use(morgan('dev'));
+if (environment !== 'test') app.use(morgan('dev'));
 routes(app);
 app.use(express.static('./public'));
 
-app.listen(port);
+app.listen(gConfig.listenPort);
 
-logger.info('HackMEAN user RESTful API server started on: '+ port);
+gLogger.info('HackMEAN REST API listening on port ' + gConfig.listenPort);
 
 // pre-populate db
-require('./test/populateMock').populateMock();
+require('./mock/populateMock').populateMock();
