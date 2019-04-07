@@ -19,3 +19,6 @@ addons:
   sonarcloud:
     token:
       secure: $SONAR_TOKEN
+
+notifications:
+  slack: malikashish8:$SLACK_TOKEN
