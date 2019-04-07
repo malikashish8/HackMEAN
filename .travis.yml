@@ -1,4 +1,7 @@
 dist: trusty
+language: node_js
+node_js: 
+  - "11"
 
 service:
   - docker
