@@ -26,28 +26,20 @@ exports.create_a_user = function (req, res) {
   var password = req.body.password;
   var email = req.body.email;
   if (!username || !password || !email) {
-    res.json({ 'message': 'You are not sending user data in the specified format!', 'type': 'error' });
+    res.status(400).json({ 'message': 'You are not sending user data in the specified format!' });
   } else {
-    // Check if user already exists
-    User.findOne({ 'username': username }, 'username', function (err, user1) {
-      if (user1) {
-        res.json({ 'message': 'This username is already taken. Use a different username.', 'type': 'error' });
-        return;
-      }
-      // Create user
-      var newUser = new User({ 
-        'username': username, 
-        'password': bcrypt.hashSync(password, gConfig.bcrypt_rounds),
-        'email': email 
-      })
-      newUser.save(function (err, task) {
-        if (err) { res.json(err); }
-        else{
-          var msg = 'User ' + username + ' created in the database.';
-          res.json({ 'message': msg, 'type': 'success' });
-        }
-      });
+    var newUser = new User({ 
+      'username': username, 
+      'password': bcrypt.hashSync(password, gConfig.bcrypt_rounds),
+      'email': email 
     })
+    newUser.save(function (err, task) {
+      if (err) { res.status(400).json(err); }
+      else{
+        var msg = 'User ' + username + ' created in the database.';
+        res.json({ 'message': msg });
+      }
+    });
   }
 }
 
@@ -61,19 +53,30 @@ function throwError(res, err){
 
 class InvalidRequestFormatError extends Error{}
 
-exports.read_user_data = function (req, res) {}
+exports.read_user_data = function (req, res) {
+  User.findOne({username: req.params.username}, (err, user) => {
+    if(err || !user) {
+      res.status(400).json({"message": "user not found"});
+    } else
+    res.json({
+      "_id": user._id,
+      "username": user.username,
+      "email": user.email
+    });
+  });
+}
 exports.update_password = function (req, res) {
   var username = req.params.username;
   var password = req.body.password;
   var newPassword = req.body.newPassword;
-  // Check if username and email are provided in the query
+  // check if required fields are provided
   if (!username || !password || !newPassword) {
     throwError ( res, new InvalidRequestFormatError ('invalid format'));
     return;
   }
   // Find the user in the DB
   User.findOne({ 'username': username }, function (err, thisUser) {
-    // If user not found
+    // if user not found
     if (!thisUser) {
       res.status(400).json({ 'message': 'User not found!' });
       return;
@@ -89,21 +92,29 @@ exports.update_password = function (req, res) {
             res.status(403).json({'message': err.message})
             return;
           }
-          res.json({ 'message': 'User detail updated.', 'type': 'success' });
+          res.json({ 'message': 'User detail updated.' });
         })
       }
       else {
-        res.status(403).json("Passwords do not match!");
+        res.status(401).json({"message": "wrong password"});
       }
     })
   })
 }
 
 exports.delete_user = function (req, res) {
-  User.remove({ 'username': res.body.username }, function (err, user) {
-    if (err) { res.send(err); }
-    res.json({ message: 'User deleted', type: 'success' });
-  })
+  User.findOne({ 'username': req.params.username }, function (err, user) {
+    if (err) { res.status(500).json(err); }
+    else if (!user) { res.status(400).json({"message": "user not found"})}
+    else {
+      User.deleteOne({"username": user.username}, (err) => {
+        if(err)
+          res.json({"message": "something went wrong"});
+        else
+          res.json({ "message": "user removed" });
+      });
+    }
+  });
 }
 
 exports.list_all_posts = function (req, res) {
@@ -219,7 +230,7 @@ exports.delete_comment = function (req, res) {
       Comment.remove({ _id: req.params.commentId }, (err, commentDeleted) => {
       });
       res.json({ message: 'Comment deleted', type: 'success' });
-    } else if (!comment) {
+    } else {
       res.status(404);
       res.json({ message: 'Comment does not exist', type: 'error' })
     }
