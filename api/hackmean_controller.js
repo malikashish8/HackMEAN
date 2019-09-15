@@ -42,7 +42,16 @@ exports.create_a_user = function(req,res){
 }
 
 
-exports.read_user_data = function(req,res){}
+exports.read_user_data = function(username, cb){
+  User.findOne({"username": username}, function(err, userData) {
+    if(userData){
+      cb(null, userData);
+    }
+    else {
+      cb(new Error("User not found"));
+    }
+  });
+}
 exports.update_password = function(req,res){}
 exports.update_email = function(req,res){
   var username = req.body.username;
@@ -74,7 +83,8 @@ exports.delete_user = function(req,res){
   User.remove({"username":res.body.username}, function(err,user){
     if (err)
       res.send(err);
-    res.json({message: 'User deleted', type:"success"});
+    else
+      res.json({message: 'User deleted', type:"success"});
   })
 }
 
@@ -123,7 +133,7 @@ exports.delete_post = function(req, res){
     res.json({"message":"You are not sending user data in the specified format!","type":"error"});
     return;
   }
-  Post.findOne({_id: req.params.postId},function(err, post){
+  Post.findOne({_id: req.params.postId}, function(err, post){
     if(err){
       res.status(500);
       res.json(err);
@@ -134,7 +144,7 @@ exports.delete_post = function(req, res){
       res.json({message: "Post not found!", type: "error"});
       return;
     }
-    Post.remove({_id: req.params.postId},function(err){
+    Post.remove({_id: req.params.postId}, function(err){
       if(err){
         res.status(500);
         res.json(err);
@@ -147,8 +157,7 @@ exports.delete_post = function(req, res){
 }
 
 exports.read_comments = function(req, res){
-    console.log("Comments requested");
-  Comment.find({},function(err, comment){
+  Comment.find({}, function(err, comment){
     if(!err){
       res.json(comment);
       return;
@@ -175,7 +184,7 @@ exports.create_comment = function(req, res){
       //fail if user does not exist
       if(User.findOne({username:user},function(err,existingUser){
         if(!existingUser){
-          res.json({message:"User does not exist",type:"error"});
+          res.json({message:"User does not exist", type:"error"});
           return;
         } else {
           comment.save(function(err, task) {

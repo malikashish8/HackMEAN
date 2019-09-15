@@ -22,3 +22,9 @@ closeNewPostForm = function() {
     $('#newPostTitle').html('');
     $('#newPostBody').html('');
 }
+$("#loginForm").submit(function(event) {
+    console.log("login attempt");
+    $.post("/post",$("#loginForm").serialize())
+    .done(alert("loggin in"))
+    .fail(alert("login failed"));
+});
