@@ -9,9 +9,16 @@ var morgan = require('morgan');
 var compression = require('compression');
 var session = require('express-session');
 
-//connect to mongoose
+var config = require('./config.json');
+const environment = process.env.NODE_ENV || 'dev';
+global.gConfig = config[environment];
+var initLogger = require('./api/util/logger');
+var app = express();
+
+// check mongo connection
 mongoose.Promise = global.Promise;
-mongoose.connect ('mongodb://localhost/mydb');
+mongoose.connect(gConfig.mongoURL, { useCreateIndex: true, useNewUrlParser: true });
+
 //allow cors
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -26,6 +33,8 @@ app.use(bodyParser.json());
 app.use(morgan('short'));
 
 var routes = require('./api/hackmean_routes');
+if (environment !== 'test') app.use(morgan('dev'));
+routes(app);
 app.use(express.static('./public'));
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
@@ -62,10 +71,9 @@ app.use(function(req, res, next){
 })
 routes(app);
 
-app.listen(port);
+app.listen(gConfig.listenPort);
 
-console.log('HackMEAN user RESTful API server started on: '+ port);
+gLogger.info('HackMEAN REST API listening on port ' + gConfig.listenPort);
 
-//for testing purposes
-mock = require('./test/initMock');
-//mock.initMock();
+// pre-populate db
+require('./mock/populateMock').populateMock();

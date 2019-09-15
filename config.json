@@ -1,0 +1,18 @@
+{
+  "dev": {
+    "bcrypt_rounds" : 10,
+    "mongoURL": "mongodb://localhost/MEAN",
+    "listenPort": 8081
+  },
+  "test": {
+    "bcrypt_rounds" : 10,
+    "mongoURL": "mongodb://localhost/MEAN",
+    "listenPort": 3000
+  },
+  "prod": {
+    "bcrypt_rounds" : 10,
+    "mongoURL": "mongodb://localhost/MEAN",
+    "listenPort": 80
+  }
+  
+}
