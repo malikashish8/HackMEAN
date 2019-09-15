@@ -27,5 +27,6 @@ module.exports = function (app) {
     .delete(hackMEAN.delete_comment);
 
   app.route('/login')
+    .get(hackMEAN.login)
     .post(hackMEAN.login);
 };

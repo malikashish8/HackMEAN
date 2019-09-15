@@ -5,6 +5,7 @@ var initMongoose = require('./hackmean_model');
 var User = mongoose.model('User');
 var Post = mongoose.model('Post');
 var Comment = mongoose.model('Comment');
+var logger = require('../config/logger')
 
 var bcrypt = require('bcrypt');
 
@@ -15,7 +16,27 @@ exports.list_all_users = function (req, res) {
   })
 }
 
-exports.login = function (creds, cb) {
+exports.login = function (req, res) {
+  if(req.body.username && req.body.password){
+    loginUser({username: req.body.username, password: req.body.password}, (err) => {
+      if(err) {
+        logger.debug(err)
+        res.status(401)
+        res.json({"error": err.message})
+      } 
+      else {
+        req.session.user = req.body.username;
+        res.json({"message":"Login Successful","type":"success"});
+      }
+    });
+  } else {
+    logger.warn("auth failed: username and password not recieved");
+    res.status(401);
+    res.json({"message":"username or password incorrect","type":"error"});
+  }
+}
+
+function loginUser(creds, cb) {
   User.findOne({ 'username': creds.username }, function (err, userData) {
     if (err) {
       cb(err);
