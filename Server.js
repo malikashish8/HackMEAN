@@ -32,11 +32,8 @@ app.use(bodyParser.json());
 app.use(morgan('short'));
 
 var routes = require('./api/hackmean_routes');
-<<<<<<< HEAD
-=======
 if (environment !== 'test') app.use(morgan('dev'));
 routes(app);
->>>>>>> 0ef1f378c55112e6ed040ba134cbaac3e6e1f1c5
 app.use(express.static('./public'));
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
