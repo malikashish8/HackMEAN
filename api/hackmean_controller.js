@@ -51,25 +51,6 @@ function throwError(res, err){
   res.json({ 'message': err.message });
 }
 
-<<<<<<< HEAD
-exports.read_user_data = function(username, cb){
-  User.findOne({"username": username}, function(err, userData) {
-    if(userData){
-      cb(null, userData);
-    }
-    else {
-      cb(new Error("User not found"));
-    }
-  });
-}
-exports.update_password = function(req,res){}
-exports.update_email = function(req,res){
-  var username = req.body.username;
-  var email = req.body.email;
-  //Check if username and email are provided in the query
-  if(!username || !email){
-    res.json({"message":"You are not sending user data in the specified format!","type":"error"});
-=======
 class InvalidRequestFormatError extends Error{}
 
 exports.read_user_data = function (req, res) {
@@ -91,7 +72,6 @@ exports.update_password = function (req, res) {
   // check if required fields are provided
   if (!username || !password || !newPassword) {
     throwError ( res, new InvalidRequestFormatError ('invalid format'));
->>>>>>> 0ef1f378c55112e6ed040ba134cbaac3e6e1f1c5
     return;
   }
   // Find the user in the DB
@@ -121,15 +101,6 @@ exports.update_password = function (req, res) {
     })
   })
 }
-<<<<<<< HEAD
-exports.delete_user = function(req,res){
-  User.remove({"username":res.body.username}, function(err,user){
-    if (err)
-      res.send(err);
-    else
-      res.json({message: 'User deleted', type:"success"});
-  })
-=======
 
 exports.delete_user = function (req, res) {
   User.findOne({ 'username': req.params.username }, function (err, user) {
@@ -144,7 +115,6 @@ exports.delete_user = function (req, res) {
       });
     }
   });
->>>>>>> 0ef1f378c55112e6ed040ba134cbaac3e6e1f1c5
 }
 
 exports.list_all_posts = function (req, res) {
@@ -153,19 +123,6 @@ exports.list_all_posts = function (req, res) {
   })
 }
 
-<<<<<<< HEAD
-exports.new_post = function(req, res){
-  if(!req.body.user || !req.body.title || !req.body.body){
-    res.status(400);
-    res.json({"message":"You are not sending user data in the specified format!","type":"error"});
-    return;
-  }
-  //Check if user exists in DB
-  User.findOne({"username":req.body.user},function(err,user){
-    if(!user){
-      res.status(400);
-      res.json({message: "Invalid user", type:"error"});
-=======
 exports.new_post = function (req, res) {
   if (!req.body.user || !req.body.title || !req.body.body) {
     res.json({ 'message': 'You are not sending user data in the specified format!', 'type': 'error' });
@@ -175,26 +132,9 @@ exports.new_post = function (req, res) {
   User.findOne({ 'username': req.body.user }, function (err, user) {
     if (!user) {
       res.json({ message: 'Invalid user', type: 'error' });
->>>>>>> 0ef1f378c55112e6ed040ba134cbaac3e6e1f1c5
       return;
     } else if (err) {
       console.log(err);
-<<<<<<< HEAD
-      res.status(500);
-      res.json({message: 'Failed to connnect to DB', type: "error"});
-      return;
-    }
-    var thisPost = new Post({"author": req.body.user, "title": req.body.title, "body": req.body.body});
-    thisPost.time = new Date;
-    thisPost.save(function(err, task){
-      if(err){
-        res.status(500);
-        res.json({message: 'Failed to create post', type:"error"});
-        console.log(err);
-        return;
-      }
-      res.json({message: 'Post posted', post: task, type:"success"});
-=======
       res.json({ message: 'Failed to connnect to DB', type: 'error' });
       return;
     }
@@ -207,7 +147,6 @@ exports.new_post = function (req, res) {
         return;
       }
       res.json({ message: 'Post posted', type: 'success' });
->>>>>>> 0ef1f378c55112e6ed040ba134cbaac3e6e1f1c5
     });
   });
 }
@@ -218,13 +157,8 @@ exports.delete_post = function (req, res) {
     res.json({ 'message': 'You are not sending user data in the specified format!', 'type': 'error' });
     return;
   }
-<<<<<<< HEAD
-  Post.findOne({_id: req.params.postId}, function(err, post){
-    if(err){
-=======
   Post.findOne({ _id: req.params.postId }, function (err, post) {
     if (err) {
->>>>>>> 0ef1f378c55112e6ed040ba134cbaac3e6e1f1c5
       res.status(500);
       res.json(err);
       return;
@@ -234,13 +168,8 @@ exports.delete_post = function (req, res) {
       res.json({ message: 'Post not found!', type: 'error' });
       return;
     }
-<<<<<<< HEAD
-    Post.remove({_id: req.params.postId}, function(err){
-      if(err){
-=======
     Post.remove({ _id: req.params.postId }, function (err) {
       if (err) {
->>>>>>> 0ef1f378c55112e6ed040ba134cbaac3e6e1f1c5
         res.status(500);
         res.json(err);
       } else { res.json({ message: 'Post deleted', type: 'success' }); }
@@ -248,15 +177,9 @@ exports.delete_post = function (req, res) {
   })
 }
 
-<<<<<<< HEAD
-exports.read_comments = function(req, res){
-  Comment.find({}, function(err, comment){
-    if(!err){
-=======
 exports.read_comments = function (req, res) {
   Comment.find({}, function (err, comment) {
     if (!err) {
->>>>>>> 0ef1f378c55112e6ed040ba134cbaac3e6e1f1c5
       res.json(comment);
     } else res.json({ message: 'Some error occurred!', type: 'error' });
   })
@@ -269,21 +192,6 @@ exports.create_comment = function (req, res) {
     res.json({ message: 'You are not sending user data in the specified format!', type: 'error' });
     return;
   }
-<<<<<<< HEAD
-  var comment = new Comment({user:user, message: message, postId: postId, time: new Date()});
-  //fail if post does not exist
-  if(Post.findById(postId,function(err, post){
-    if(!post){
-      res.json({message:"PostId does not match any post", type:"error"});
-      return;
-    }
-    else{
-      //fail if user does not exist
-      if(User.findOne({username:user},function(err,existingUser){
-        if(!existingUser){
-          res.json({message:"User does not exist", type:"error"});
-          return;
-=======
   var comment = new Comment({ user: user, message: message, postId: postId, time: new Date() });
   // fail if post does not exist
   if (Post.findById(postId, function (err, post) {
@@ -295,7 +203,6 @@ exports.create_comment = function (req, res) {
         if(!existingUser) {
           res.json({ message: 'User does not exist', type: 'error' });
           
->>>>>>> 0ef1f378c55112e6ed040ba134cbaac3e6e1f1c5
         } else {
           comment.save(function (err, task) {
             if (err) {
