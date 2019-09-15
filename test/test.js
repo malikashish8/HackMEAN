@@ -1,15 +1,28 @@
 'use strict';
 
 var chai = require('chai');
-var chaiHttp = require('chai-http')
+var chaiHttp = require('chai-http');
 
+var config = require('config');
+
+var logger = require('../config/logger')
 var User = require('../api/hackmean_model').User;
 var expect = chai.expect;
-var api_url = "http://127.0.0.1:" + gConfig.listenPort;
+var api_url = "http://127.0.0.1:" + config.listenPort;
 
 chai.use(chaiHttp);
 
 // Unit Tests
+before(() => {
+  logger.info("logging in for authenticated testing")
+
+  chai.request(api_url)
+    .post('/login').send("username=Joe&password=jo123")
+    .end((err, res) => {
+      expect(res).to.have.status(200);
+    })
+})
+
 describe('/user' , () => {
   it('/GET user - it should get users list', () => {
     chai.request(api_url)
