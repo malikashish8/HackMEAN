@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var config = require('config')
+
 var initMongoose = require('./hackmean_model');
 var User = mongoose.model('User');
 var Post = mongoose.model('Post');
@@ -13,11 +15,19 @@ exports.list_all_users = function (req, res) {
   })
 }
 
-exports.login = function (req, res) {
-  User.findOne({ 'username': req.body.username, 'password': req.body.password }, function (err, data) {
-    if (err || data === null) {
-      res.status(401).json({ 'message': 'login failed' });
-    } else { res.json({ 'message': 'login successful', 'user': data.username }); }
+exports.login = function (creds, cb) {
+  User.findOne({ 'username': creds.username }, function (err, userData) {
+    if (err) {
+      cb(err);
+    }
+    else if (userData === null) {
+      cb(new Error('username not found'));
+    } else { 
+      bcrypt.compare(creds.password, userData.password, (err, isSame) => {
+        if(isSame) cb(null, true)
+        else cb(new Error("incorrect password"))
+      })
+    }
   });
 }
 
@@ -30,7 +40,7 @@ exports.create_a_user = function (req, res) {
   } else {
     var newUser = new User({ 
       'username': username, 
-      'password': bcrypt.hashSync(password, gConfig.bcrypt_rounds),
+      'password': bcrypt.hashSync(password, config.bcrypt_rounds),
       'email': email 
     })
     newUser.save(function (err, task) {
@@ -54,7 +64,7 @@ function throwError(res, err){
 class InvalidRequestFormatError extends Error{}
 
 exports.read_user_data = function (req, res) {
-  User.findOne({username: req.params.username}, (err, user) => {
+  User.findOne({username: req.body.username}, (err, user) => {
     if(err || !user) {
       res.status(400).json({"message": "user not found"});
     } else
@@ -86,7 +96,7 @@ exports.update_password = function (req, res) {
       if(isSame){
         User.findOneAndUpdate(
           { 'username': username },
-          { 'password': bcrypt.hashSync(newPassword, gConfig.bcrypt_rounds) }, 
+          { 'password': bcrypt.hashSync(newPassword, config.bcrypt_rounds) }, 
           function (err, user) {
           if (err) {
             res.status(403).json({'message': err.message})

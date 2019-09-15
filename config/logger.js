@@ -1,9 +1,10 @@
 var winston = require('winston');
+var config = require('config')
 
-winston.loggers.add('consoleLogger', {
-  level: 'info',
+const logger = winston.createLogger({
+  level: config.logLevel,
   format: winston.format.cli(),
   transports: [ new winston.transports.Console() ]
 });
 
-global.gLogger = winston.loggers.get('consoleLogger');
+module.exports = logger

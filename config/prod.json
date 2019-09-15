@@ -1,5 +1,6 @@
 {
     "bcrypt_rounds" : 10,
     "mongoURL": "mongodb://localhost/MEAN",
-    "listenPort": 80
+    "listenPort": 80,
+    "logLevel": "info"
   }

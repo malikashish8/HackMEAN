@@ -1,7 +1,8 @@
 var readFile = require('fs').readFile;
 var model = require('../api/hackmean_model');
 var bcrypt = require('bcrypt');
-var logger = require('winston').loggers.get('myLogger');
+var logger = require('../config/logger');
+var config = require('config')
 
 var User = model.User;
 var Post = model.Post;
@@ -13,7 +14,7 @@ function populateMock () {
     mockData = JSON.parse(mockData);
     // hash passwords
     mockData.users.forEach(user => {
-      user.password = bcrypt.hashSync(user.password, gConfig.bcrypt_rounds);
+      user.password = bcrypt.hashSync(user.password, config.bcrypt_rounds);
     })
     User.insertMany(mockData.users, (err, users)=>{
       if(!err){

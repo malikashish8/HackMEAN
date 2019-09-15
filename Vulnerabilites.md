@@ -5,3 +5,6 @@ If running on HTTP usernames might be logged to network infrastucture such as pr
 
 ## Cookie
 Secure attribute not set for express session cookie
+
+<!-- ## User Enumeration
+Different message for username not found and password incorrect errors -->

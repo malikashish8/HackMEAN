@@ -1,5 +1,7 @@
 {
   "bcrypt_rounds" : 10,
   "mongoURL": "mongodb://localhost/MEAN",
-  "listenPort": 3000
+  "listenPort": 3000,
+  "logLevel": "debug",
+  "morganFormat": "dev"
 }
