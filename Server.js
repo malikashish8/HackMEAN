@@ -10,13 +10,13 @@ var compression = require('compression');
 var session = require('express-session');
 
 const environment = process.env.NODE_ENV || 'dev';
-global.gConfig = config[environment];
+const config = require('config')
 var initLogger = require('./api/util/logger');
 var app = express();
 
 // check mongo connection
 mongoose.Promise = global.Promise;
-mongoose.connect(gConfig.mongoURL, { useCreateIndex: true, useNewUrlParser: true });
+mongoose.connect(config.mongoURL, { useCreateIndex: true, useNewUrlParser: true });
 
 //allow cors
 app.use(function(req, res, next) {
@@ -70,9 +70,9 @@ app.use(function(req, res, next){
 })
 routes(app);
 
-app.listen(gConfig.listenPort);
+app.listen(config.listenPort);
 
-gLogger.info('HackMEAN REST API listening on port ' + gConfig.listenPort);
+gLogger.info('HackMEAN REST API listening on port ' + config.listenPort);
 
 // pre-populate db
 require('./mock/populateMock').populateMock();
