@@ -13,7 +13,6 @@
     "angular": "^1.6.9",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.2",
-    "chai-http": "^4.2.1",
     "compression": "^1.7.2",
     "config": "^3.2.2",
     "express": "^4.13.4",
@@ -31,7 +30,8 @@
   },
   "license": "UNLICENSED",
   "devDependencies": {
-    "@angular/cli": "^7.3.8",
+   "@angular/cli": "^7.3.8",
+   "chai-http": "^4.2.1",
     "chai": "^4.2.0",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
