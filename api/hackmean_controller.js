@@ -242,6 +242,15 @@ exports.read_comments = function (req, res) {
     } else res.json({ message: 'Some error occurred!', type: 'error' });
   })
 }
+
+exports.get_comments_by_post = function (req, res) {
+  let postId = req.params.postId;
+  Comment.find({postId: postId}, function (err, comments) {
+    if(!err) {
+      res.json(comments);
+    }
+  });
+}
 exports.create_comment = function (req, res) {
   var user = req.body.username;
   var message = req.body.message;

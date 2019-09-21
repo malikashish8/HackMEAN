@@ -21,6 +21,9 @@ module.exports = function (app) {
     .put(hackMEAN.update_post)
     .delete(hackMEAN.delete_post);
 
+  app.route('/post/:postId/comment')
+    .get(hackMEAN.get_comments_by_post);
+  
   app.route('/comment')
     .get(hackMEAN.read_comments)
     .post(hackMEAN.create_comment);
