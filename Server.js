@@ -38,23 +38,23 @@ app.use(session({
 }))
 
 // authentication
-app.use(function(req, res, next){
-  // allow bypass for login
-  if(req.path.match(/^\/login$/)) {
-    next()
-    return
-  }
-  if(req.session.user != null){
-    next();
-  }
-  else res.redirect('/login')
-})
+// app.use(function(req, res, next){
+//   // allow bypass for login
+//   if(req.path.match(/^\/login$/)) {
+//     next()
+//     return
+//   }
+//   if(req.session.user != null){
+//     next();
+//   }
+//   else res.redirect('/login')
+// })
 
 var routes = require('./api/hackmean_routes');
 routes(app);
 
 app.listen(config.listenPort);
-logger.info('HackMEAN REST API listening on port ' + config.listenPort);
+logger.info('HackMEAN application running at http://127.0.0.1:' + config.listenPort);
 
 // pre-populate db
 require('./mock/populateMock').populateMock();
