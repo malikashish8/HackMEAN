@@ -17,6 +17,8 @@ module.exports = function (app) {
     .post(hackMEAN.new_post)
 
   app.route('/post/:postId')
+    .get(hackMEAN.get_post)
+    .put(hackMEAN.update_post)
     .delete(hackMEAN.delete_post);
 
   app.route('/comment')

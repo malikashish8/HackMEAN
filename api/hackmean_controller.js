@@ -154,6 +154,33 @@ exports.list_all_posts = function (req, res) {
   })
 }
 
+exports.get_post = function(req, res) {
+  Post.find({ _id: req.params.postId }, (err, post) => {
+    if(err)
+      res.status(500).json({"message": "something went wrong"});
+    else if(!post || post.length === 0) {
+      res.status(400).json({"message": "something went wrong"});
+    }
+    else 
+      res.send(post[0]);
+  });
+}
+
+exports.update_post = function(req, res) {
+  Post.findOneAndUpdate(
+    { _id: req.params.postId }, 
+    { title: req.body.title, body: req.body.body }, 
+    { new: true }, 
+    (err, post) => {
+      if(err)
+        res.status(500).json({"message": "something went wrong"});
+      else if(!post || post.length === 0) {
+        res.status(400).json({"message": "post not found"});
+      }
+      else 
+        res.send(post);
+    });
+}
 exports.new_post = function (req, res) {
   if (!req.body.user || !req.body.title || !req.body.body) {
     res.json({ 'message': 'You are not sending user data in the specified format!', 'type': 'error' });
