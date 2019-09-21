@@ -18,8 +18,12 @@ mongoose.connect(config.mongoURL, { useCreateIndex: true, useNewUrlParser: true 
 //allow cors
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+  if(req.method === 'OPTIONS') {
+    res.status(200).json(null);
+  } else
+    next();
 });
 
 app.use(compression());
@@ -35,7 +39,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   cookie: { secure: false }
-}))
+}));
 
 // authentication
 // app.use(function(req, res, next){
