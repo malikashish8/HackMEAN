@@ -6,7 +6,8 @@ var express = require('express'),
   bodyParser = require('body-parser');
 var morgan = require('morgan');
 var compression = require('compression');
-var session = require('express-session');
+var nodeRSA = require('node-rsa');
+var jwt = require('jsonwebtoken');
 
 var logger = require('./config/logger');
 const config = require('config')
@@ -34,21 +35,16 @@ app.use(morgan(config.morganFormat));
 
 app.use(express.static('./public'));
 app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true,
-  cookie: { secure: false }
-}));
 
 // authentication
+process.env.key = new nodeRSA({b: 512, format: 'pkcs8'}).exportKey('pkcs8');
 app.use(function(req, res, next) {
   // allow bypass for login
   if(req.path.match(/^\/(login|logout)$/)) {
     next();
     return;
   }
-  if(req.session.user != null){
+  if(req.headers.authorization && jwt.verify(req.headers.authorization, process.env.key)) {
     next();
   }
   else res.redirect('/login');

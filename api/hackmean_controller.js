@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 var config = require('config')
 
-var initMongoose = require('./hackmean_model');
 var User = mongoose.model('User');
 var Post = mongoose.model('Post');
 var Comment = mongoose.model('Comment');
-var logger = require('../config/logger')
+var logger = require('../config/logger');
+var jwt = require('jsonwebtoken');
 
 var bcrypt = require('bcrypt');
 
@@ -25,8 +25,12 @@ exports.login = function (req, res) {
         res.json({"error": err.message})
       } 
       else {
-        req.session.user = req.body.username;
-        res.json({"message":"Login Successful","type":"success"});
+        let jwtBearerToken = jwt.sign({}, process.env.key, {
+          algorithm: 'RS256',
+          expiresIn: config.sessionValidity,
+          subject: req.body.username
+        });
+        res.json({"token": jwtBearerToken, expiresIn: config.sessionValidity});
       }
     });
   } else {
@@ -37,7 +41,6 @@ exports.login = function (req, res) {
 }
 
 exports.logout = function(req, res) {
-  req.session.user = null;
   res.json({"message": "user logged out"});
 }
 

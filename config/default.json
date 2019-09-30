@@ -3,5 +3,6 @@
   "mongoURL": "mongodb://localhost/MEAN",
   "listenPort": 3000,
   "logLevel": "debug",
-  "morganFormat": "dev"
+  "morganFormat": "dev",
+  "sessionValidity": 120
 }
