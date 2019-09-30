@@ -36,6 +36,11 @@ exports.login = function (req, res) {
   }
 }
 
+exports.logout = function(req, res) {
+  req.session.user = null;
+  res.json({"message": "user logged out"});
+}
+
 function loginUser(creds, cb) {
   User.findOne({ 'username': creds.username }, function (err, userData) {
     if (err) {

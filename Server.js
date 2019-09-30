@@ -42,17 +42,17 @@ app.use(session({
 }));
 
 // authentication
-// app.use(function(req, res, next){
-//   // allow bypass for login
-//   if(req.path.match(/^\/login$/)) {
-//     next()
-//     return
-//   }
-//   if(req.session.user != null){
-//     next();
-//   }
-//   else res.redirect('/login')
-// })
+app.use(function(req, res, next) {
+  // allow bypass for login
+  if(req.path.match(/^\/(login|logout)$/)) {
+    next();
+    return;
+  }
+  if(req.session.user != null){
+    next();
+  }
+  else res.redirect('/login');
+})
 
 var routes = require('./api/hackmean_routes');
 routes(app);

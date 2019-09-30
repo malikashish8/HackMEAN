@@ -34,4 +34,7 @@ module.exports = function (app) {
   app.route('/login')
     .get(hackMEAN.login)
     .post(hackMEAN.login);
+  
+  app.route('/logout')
+    .get(hackMEAN.logout);
 };
