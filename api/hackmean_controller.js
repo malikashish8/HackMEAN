@@ -25,7 +25,7 @@ exports.login = function (req, res) {
         res.json({"error": err.message})
       } 
       else {
-        let jwtBearerToken = jwt.sign({}, process.env.key, {
+        let jwtBearerToken = jwt.sign({}, process.env.private_key, {
           algorithm: 'RS256',
           expiresIn: config.sessionValidity,
           subject: req.body.username

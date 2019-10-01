@@ -20,7 +20,7 @@ mongoose.connect(config.mongoURL, { useCreateIndex: true, useNewUrlParser: true 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   if(req.method === 'OPTIONS') {
     res.status(200).json(null);
   } else
@@ -37,14 +37,19 @@ app.use(express.static('./public'));
 app.set('trust proxy', 1) // trust first proxy
 
 // authentication
-process.env.key = new nodeRSA({b: 512, format: 'pkcs8'}).exportKey('pkcs8');
+let keypair = new nodeRSA({b: 512, format: 'pkcs8'})
+process.env.public_key = keypair.exportKey('pkcs8-public-pem');
+process.env.private_key = keypair.exportKey('pkcs8-private-pem');
+logger.debug('\n' + process.env.public_key);
+logger.debug('\n' + process.env.private_key);
 app.use(function(req, res, next) {
   // allow bypass for login
   if(req.path.match(/^\/(login|logout)$/)) {
     next();
     return;
   }
-  if(req.headers.authorization && jwt.verify(req.headers.authorization, process.env.key)) {
+  if(req.headers.authorization && 
+      jwt.verify(req.headers.authorization, process.env.public_key, {algorithm: 'RS256'})) {
     next();
   }
   else res.redirect('/login');
