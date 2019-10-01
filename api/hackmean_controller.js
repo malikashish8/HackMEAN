@@ -7,7 +7,7 @@ var Comment = mongoose.model('Comment');
 var logger = require('../config/logger');
 var jwt = require('jsonwebtoken');
 
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 exports.list_all_users = function (req, res) {
   User.find({}, 'username', function (err, user) {
