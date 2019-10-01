@@ -1,6 +1,6 @@
 # HackMEAN Client
 
-This is the Angular client component of [HackMEAN application](./../). This app has been developed using the Angular version 7.9.
+This is the Angular client component of [HackMEAN application](https://github.com/malikashish8/HackMEAN/). This app has been developed using the Angular version 7.9.
 
 ## Develop
 Install the require dependencies by running `npm install` in this folder.
