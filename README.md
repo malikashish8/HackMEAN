@@ -2,7 +2,7 @@
 
 # HackMean
 
-Intentionally vulnerable app built on MEAN stack (MongoDB, Express, Angular and Node.js). This app demonstrates common vulnerabilites in the MEAN stack. The challenge is find all the vulnerabilites by running the application (pentest) or by looking at the code (code-review) without reading [Vulnerabilites.md](./Vulnerabilites.md).
+Intentionally vulnerable app built on MEAN stack (MongoDB, Express, Angular and Node.js). This app demonstrates common vulnerabilities in the MEAN stack. The challenge is find all the vulnerabilites by running the application (pentest) or by looking at the code (code-review) without reading [Vulnerabilites.md](./Vulnerabilites.md).
 
 ## Docker Compose
 
