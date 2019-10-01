@@ -1,0 +1,12 @@
+<div class="card my-2 bg-light" *ngFor="let postComment of postComments">
+  <div class="card-body">
+    <div class="font-italic">{{ postComment.user }} commented on {{ postComment.time | date:"medium" }}</div>  
+    <p class="card-text">{{ postComment.message }}</p>
+    <div class="float-right">
+      <button class="btn btn-outline-danger" href="#" role="button" (click)="deleteComment(postComment._id)">Delete Comment</button>
+    </div>
+  </div>
+</div>
+<div *ngIf="postComments.length === 0" class="alert alert-dark">
+  <div>No comments for this post yet</div>
+</div>

@@ -1,0 +1,19 @@
+
+<div class="jumbotron py-2"><div class="h1">Posts</div></div>
+<div class="row py-2">
+	<div class="col" > <!-- [ngClass]="isPostSelected ? col-lg-4 : col"> -->
+    <div *ngFor="let post of posts" class="py-1">
+    <a routerLink="/post/{{post._id}}" class="card border-secondary">
+    <div class="card-body">
+        <h5 class="card-title">{{post.title}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ post.time | date:"fullDate" }}</h6>
+        <p class="card-text">{{ post.body | slice: 0 : 100 }}...</p>
+    </div>
+    </a>  
+  </div>
+</div>
+<div [hidden]="!isPostSelected" class="col col-lg-8 col-md-12 col-sm-12 col-12">
+  <app-post></app-post>
+</div>
+</div>
+

@@ -1,0 +1,41 @@
+<div *ngIf="post">
+<div class="jumbotron clearfix py-2">
+  <div [hidden]="isEditing">
+  <h1 class="display-4">{{ post.title }}</h1>
+  <p class="lead">{{ post.body }}</p>
+  <hr class="my-4">
+  <div>
+    <div class="float-left">
+      <p>{{ post.time | date: 'fullDate'}}</p>
+    </div>
+    <div class="float-right">
+      <p>By {{ post.author }}</p>
+    </div>
+  </div>
+  <br class="my-4">
+  <br>
+  <br>
+  <div class="float-right">
+    <button class="btn btn-primary btn-lg" href="#" role="button" (click)="isEditing = !isEditing">Edit Post</button>
+  </div>
+</div>
+<!-- form for editing -->
+<form  *ngIf="isEditing">
+  <div class="form-group">
+    <label class="h3">Title</label>
+    <input type="text" name="title" class="form-control-lg form-control" [(ngModel)]="editedTitle" required>
+  </div>
+  <div class="form-group">
+    <label class="h3">Body</label>
+    <textarea type="textarea" name="body" class="form-control" rows=10 [(ngModel)]="editedBody" required></textarea>
+  </div>
+  <div class="float-right">
+    <button type="button" class="btn btn-info btn-lg mr-2" href="#" (click)="isEditing = !isEditing" role="button">Cancel</button>
+    <button type="button" class="btn btn-primary btn-lg" href="#" (click)="updatePost()" role="button">Update Post</button>
+  </div>
+</form>
+</div>
+<hr class="my-4">
+<h1 class="display-5">Comments</h1>
+<app-commentlist></app-commentlist>
+</div>

@@ -5,9 +5,9 @@
   "version": "0.0.1",
   "private": false,
   "scripts": {
-    "start": "nodejs Server.js",
-    "debug": "nodemon Server.js",
-    "test": "NODE_ENV=test node_modules/mocha/bin/mocha --file Server.js --require mocha-steps --exit"
+    "start": "node index.js",
+    "debug": "nodemon index.js",
+    "test": "NODE_ENV=test node_modules/mocha/bin/mocha --file index.js --require mocha-steps --exit"
   },
   "dependencies": {
     "angular": "^1.6.9",

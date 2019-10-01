@@ -6,7 +6,7 @@ Intentionally vulnerable app built on MEAN stack (MongoDB, Express, Angular and 
 ## Pre-requisites:
 - Node.js
 - NPM
-- MongoDB (on a docker container)
+- MongoDB (maybe on a docker container)
 
 You can spin up a docker container for mongoDB and map the data folder from the host machine to the container as in the example below:
 ```
@@ -20,3 +20,5 @@ cd HackMEAN
 npm install --production
 npm start
 ```
+## Client Application
+Code for the Angular application is available at [./hackmean-client](./hackmean-client). The client application has been build into `./public` folder and can therfore be accessed directly using HackMEAN at [http://localhost:8888/](http://localhost:8888).

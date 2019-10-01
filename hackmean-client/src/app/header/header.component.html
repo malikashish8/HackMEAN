@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" (click)="showMenu()" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand display-3 font-weight-bold" href="#">HackMEAN</a>
+  
+  <div class="collapse navbar-collapse" [ngClass]="{ show: showingMenu }" id="navbarToggler03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control m-2" type="text" name="username" placeholder="Username" [(ngModel)]="username" aria-label="Name" [hidden]="loggedIn">
+      <input class="form-control m-2" type="password" name="password"  [(ngModel)]="password" aria-label="Password" [hidden]="loggedIn"> 
+      <button class="btn btn-outline-light m-2" type="submit" (click)="login()" [hidden]="loggedIn">Login</button>
+      <button class="btn btn-outline-light m-2" type="submit" (click)="logout()" [hidden]="!loggedIn">Logout</button>
+    </form>
+  </div>
+ </nav>
+ <app-alerts></app-alerts>
