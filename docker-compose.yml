@@ -1,0 +1,15 @@
+version: '3'
+services:
+  hackmean:
+    build: .
+    ports:
+      - "127.0.0.1:8888:8888"
+    environment:
+      - NODE_CONFIG_ENV=docker-compose
+    depends_on:
+      - "mongo"
+  mongo:
+    image: "mongo"
+    volumes:
+      - ./mongo:/data/db
+    
