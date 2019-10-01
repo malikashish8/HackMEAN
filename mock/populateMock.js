@@ -1,6 +1,6 @@
 var readFile = require('fs').readFile;
 var model = require('../api/hackmean_model');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var logger = require('../config/logger');
 var config = require('config')
 
