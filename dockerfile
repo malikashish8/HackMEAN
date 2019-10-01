@@ -1,5 +1,5 @@
 # Node server
-FROM node:8.11-alpine as node-server
+FROM node:8.11-alpine
 WORKDIR /usr/src/app
 COPY [".", "./"]
 RUN npm install --production --silent
