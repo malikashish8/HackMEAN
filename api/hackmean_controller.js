@@ -54,7 +54,7 @@ function loginUser(creds, cb) {
     } else { 
       bcrypt.compare(creds.password, userData.password, (err, isSame) => {
         if(isSame) cb(null, true)
-        else cb(new Error("incorrect password"))
+        else cb(new Error("incorrect password for " + userData.username))
       })
     }
   });
