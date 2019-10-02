@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Event, NavigationEnd } from '@angular/router';
 
 import { PostService } from 'src/app/post.service';
 import { Post } from 'src/app/post.module';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-post',
@@ -16,7 +17,8 @@ export class PostComponent implements OnInit {
   editedBody: string;
   isEditing: boolean;
 
-  constructor(private route: ActivatedRoute, private router: Router, private postService: PostService) {
+  constructor(private route: ActivatedRoute, private router: Router, private postService: PostService,
+    private authService: AuthService) {
     this.router.events.subscribe((event: Event) => {
       if(event instanceof NavigationEnd) {
         // ToDo: resize things and focus on /post
@@ -29,12 +31,18 @@ export class PostComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('_id');
-    this.postService.getPost(this.id).subscribe((res) => {
-      this.post = res;
-      this.isEditing = false;
-      this.editedBody = this.post.body;
-      this.editedTitle = this.post.title;
-    });
+    this.postService.getPost(this.id).subscribe(
+      (res) => {
+        this.post = res;
+        this.isEditing = false;
+        this.editedBody = this.post.body;
+        this.editedTitle = this.post.title;
+      },
+      (err) => {
+        if(err.status === 401)
+          this.authService.logout();
+      }
+    );
   }
 
   updatePost() {

@@ -18,8 +18,10 @@ The response discloses user name:
 ### Mitigation
 This issue can be mitigated by ensuring that the user parameters that are being sent are of string type. See Pull Request: TODO
 
-## Excessive information returned by API
+## Lack of function level authorization checks
 `GET /post` returns all posts and the client filters out private posts from displaying.
+
+Also `GET /comments`
 ### Mitigation
 Implement function level authorization checks at the server end. Do not depend on client side validation and filtering.
 

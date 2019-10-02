@@ -175,6 +175,7 @@ exports.get_post = function(req, res) {
 }
 
 exports.update_post = function(req, res) {
+  // logger.debug(jwt.decode(req.headers.authorization));
   Post.findOneAndUpdate(
     { _id: req.params.postId }, 
     { title: req.body.title, body: req.body.body }, 

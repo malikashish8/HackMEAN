@@ -44,19 +44,30 @@ logger.debug('\n' + process.env.public_key);
 logger.debug('\n' + process.env.private_key);
 app.use(function(req, res, next) {
   // allow bypass for login
-  if(req.path.match(/^\/(login|logout)$/)) {
+  if(req.path.match(/^\/(login|logout)$/) || req.method === 'OPTIONS') {
     next();
     return;
   }
-  else if(req.path.match("/post") && req.method === 'GET') {
+  else if(req.path.match(/^\/post$/) && req.method === 'GET') {
     next();
     return;
   }
-  if(req.headers.authorization && 
-      jwt.verify(req.headers.authorization, process.env.public_key, {algorithm: 'RS256'})) {
-    next();
+  if(req.headers.authorization && req.headers.authorization.split(' ')[1]) {
+    jwt.verify(
+      req.headers.authorization.split(' ')[1], 
+      process.env.public_key, 
+      {algorithm: 'RS256'},
+      (err) => {
+        if(err) {
+          res.status(401).send('Unauthorized');
+          logger.warn('JWT verification error: ' + err.message);
+          return;
+        } else {
+          next();
+        }
+      });
   }
-  else res.redirect('/login');
+  else res.status(401).send('Unauthorized');
 })
 
 var routes = require('./api/hackmean_routes');

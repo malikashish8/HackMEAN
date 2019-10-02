@@ -20,7 +20,7 @@ export class AuthService {
     let id_token = localStorage.getItem('id_token');
     let expires_at = localStorage.getItem('expires_at');
     if (id_token && expires_at && moment(expires_at, "x") > moment()){
-      this.httpOptions = {headers: new HttpHeaders({'Authorization': id_token})};
+      this.httpOptions = {headers: new HttpHeaders({'Authorization': `Bearer ${id_token}`})};
       this.isLoggedIn = true;
       this.loggedInUser = localStorage.getItem('user');
     } else {
@@ -45,7 +45,7 @@ export class AuthService {
           
           this.httpOptions = {
             headers: new HttpHeaders({
-              'Authorization': localStorage.getItem('id_token')
+              'Authorization': `Bearer ${localStorage.getItem('id_token')}`
             })
           };
           this.isLoggedIn = true;
@@ -76,6 +76,7 @@ export class AuthService {
         this.httpOptions = {};
         this.isLoggedIn = false;
         this.loggedInUser = null;
+        this.router.navigateByUrl('/');
       },
       () => {
         this.alerts.setMessage('logout failed', 'error');
