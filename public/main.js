@@ -514,6 +514,17 @@ var AuthService = /** @class */ (function () {
         this.router = router;
         this.baseURL = _app_settings__WEBPACK_IMPORTED_MODULE_5__["AppSettings"].apiUrl;
         this.httpOptions = {};
+        // check if a valid credentials exist in browser local storage
+        var id_token = localStorage.getItem('id_token');
+        var expires_at = localStorage.getItem('expires_at');
+        if (id_token && expires_at && moment__WEBPACK_IMPORTED_MODULE_6__(expires_at, "x") > moment__WEBPACK_IMPORTED_MODULE_6__()) {
+            this.httpOptions = { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': id_token }) };
+            this.isLoggedIn = true;
+            this.loggedInUser = localStorage.getItem('user');
+        }
+        else {
+            this.logout();
+        }
     }
     AuthService.prototype.login = function (username, password) {
         var _this = this;
@@ -526,11 +537,14 @@ var AuthService = /** @class */ (function () {
                 var expiresAt = moment__WEBPACK_IMPORTED_MODULE_6__().add(resp['expiresIn'], 'second');
                 localStorage.setItem('id_token', resp['token']);
                 localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
+                localStorage.setItem("user", username);
                 _this.httpOptions = {
                     headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                         'Authorization': localStorage.getItem('id_token')
                     })
                 };
+                _this.isLoggedIn = true;
+                _this.loggedInUser = username;
                 var timeoutTime = (expiresAt.valueOf()) - (new Date).getTime();
                 setTimeout(function () {
                     _this.logout();
@@ -549,9 +563,12 @@ var AuthService = /** @class */ (function () {
             _this.alerts.setMessage('logged out', 'success');
             localStorage.removeItem("id_token");
             localStorage.removeItem("expires_at");
+            localStorage.removeItem("user");
             _this.httpOptions = {};
+            _this.isLoggedIn = false;
+            _this.loggedInUser = null;
         }, function () {
-            _this.alerts.setMessage('loggout failed', 'error');
+            _this.alerts.setMessage('logout failed', 'error');
         });
     };
     AuthService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -574,7 +591,7 @@ var AuthService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" (click)=\"showMenu()\" data-target=\"#navbarTogglerDemo03\" aria-controls=\"navbarTogglerDemo03\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <a class=\"navbar-brand display-3 font-weight-bold\" href=\"#\">HackMEAN</a>\n  \n  <div class=\"collapse navbar-collapse\" [ngClass]=\"{ show: showingMenu }\" id=\"navbarToggler03\">\n    <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" href=\"#\">Home <span class=\"sr-only\">(current)</span></a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">Link</a>\n      </li>\n    </ul>\n    <form class=\"form-inline my-2 my-lg-0\">\n      <input class=\"form-control m-2\" type=\"text\" name=\"username\" placeholder=\"Username\" [(ngModel)]=\"username\" aria-label=\"Name\" [hidden]=\"loggedIn\">\n      <input class=\"form-control m-2\" type=\"password\" name=\"password\"  [(ngModel)]=\"password\" aria-label=\"Password\" [hidden]=\"loggedIn\"> \n      <button class=\"btn btn-outline-light m-2\" type=\"submit\" (click)=\"login()\" [hidden]=\"loggedIn\">Login</button>\n      <button class=\"btn btn-outline-light m-2\" type=\"submit\" (click)=\"logout()\" [hidden]=\"!loggedIn\">Logout</button>\n    </form>\n  </div>\n </nav>\n <app-alerts></app-alerts>"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" (click)=\"showMenu()\" data-target=\"#navbarTogglerDemo03\" aria-controls=\"navbarTogglerDemo03\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <a class=\"navbar-brand display-3 font-weight-bold\" href=\"#\">HackMEAN</a>\n  \n  <div class=\"collapse navbar-collapse\" [ngClass]=\"{ show: showingMenu }\" id=\"navbarToggler03\">\n    <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" href=\"#\">Home <span class=\"sr-only\">(current)</span></a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">Link</a>\n      </li>\n    </ul>\n    <form class=\"form-inline my-2 my-lg-0\">\n      <input class=\"form-control m-2\" type=\"text\" name=\"username\" placeholder=\"Username\" [(ngModel)]=\"username\" aria-label=\"Name\" [hidden]=\"loggedIn\">\n      <input class=\"form-control m-2\" type=\"password\" name=\"password\"  [(ngModel)]=\"password\" aria-label=\"Password\" [hidden]=\"loggedIn\"> \n      <button class=\"btn btn-outline-light m-2\" type=\"submit\" (click)=\"login()\" [hidden]=\"loggedIn\">Login</button>\n      <button class=\"btn btn-outline-light m-2\" type=\"submit\" (click)=\"logout()\" [hidden]=\"!loggedIn\">Logout {{username}}</button>\n    </form>\n  </div>\n </nav>\n <app-alerts></app-alerts>"
 
 /***/ }),
 
@@ -601,6 +618,11 @@ var HeaderComponent = /** @class */ (function () {
         this.username = "Username";
         this.password = "Password";
         this.loggedIn = false;
+        if (authService.isLoggedIn) {
+            this.loggedIn = true;
+            this.username = authService.loggedInUser;
+            this.httpOptions = authService.httpOptions;
+        }
     }
     HeaderComponent.prototype.ngOnInit = function () { };
     HeaderComponent.prototype.login = function () {
@@ -646,12 +668,13 @@ var HeaderComponent = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Post", function() { return Post; });
 var Post = /** @class */ (function () {
-    function Post(_id, author, title, body, time) {
+    function Post(_id, author, title, body, time, visibility) {
         this._id = _id;
         this.author = author;
         this.title = title;
         this.body = body;
         this.time = time;
+        this.visibility = visibility;
     }
     return Post;
 }());
@@ -842,7 +865,7 @@ var CommentlistComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"post\">\n<div class=\"jumbotron clearfix py-2\">\n  <div [hidden]=\"isEditing\">\n  <h1 class=\"display-4\">{{ post.title }}</h1>\n  <p class=\"lead\">{{ post.body }}</p>\n  <hr class=\"my-4\">\n  <div>\n    <div class=\"float-left\">\n      <p>{{ post.time | date: 'fullDate'}}</p>\n    </div>\n    <div class=\"float-right\">\n      <p>By {{ post.author }}</p>\n    </div>\n  </div>\n  <br class=\"my-4\">\n  <br>\n  <br>\n  <div class=\"float-right\">\n    <button class=\"btn btn-primary btn-lg\" href=\"#\" role=\"button\" (click)=\"isEditing = !isEditing\">Edit Post</button>\n  </div>\n</div>\n<!-- form for editing -->\n<form  *ngIf=\"isEditing\">\n  <div class=\"form-group\">\n    <label class=\"h3\">Title</label>\n    <input type=\"text\" name=\"title\" class=\"form-control-lg form-control\" [(ngModel)]=\"editedTitle\" required>\n  </div>\n  <div class=\"form-group\">\n    <label class=\"h3\">Body</label>\n    <textarea type=\"textarea\" name=\"body\" class=\"form-control\" rows=10 [(ngModel)]=\"editedBody\" required></textarea>\n  </div>\n  <div class=\"float-right\">\n    <button type=\"button\" class=\"btn btn-info btn-lg mr-2\" href=\"#\" (click)=\"isEditing = !isEditing\" role=\"button\">Cancel</button>\n    <button type=\"button\" class=\"btn btn-primary btn-lg\" href=\"#\" (click)=\"updatePost()\" role=\"button\">Update Post</button>\n  </div>\n</form>\n</div>\n<hr class=\"my-4\">\n<h1 class=\"display-5\">Comments</h1>\n<app-commentlist></app-commentlist>\n</div>"
+module.exports = "<div *ngIf=\"post\">\n<div class=\"jumbotron clearfix py-2\">\n  <div [hidden]=\"isEditing\">\n  <h1 class=\"display-4\">{{ post.title }}</h1>\n  <p class=\"lead\">{{ post.body }}</p>\n  <hr class=\"my-4\">\n  <div>\n    <div class=\"float-left\">\n      <p>{{ post.time | date: 'fullDate'}}</p>\n    </div>\n    <div class=\"float-right\">\n      <p>posted {{ post.visibility }}ly by {{ post.author }}</p>\n    </div>\n  </div>\n  <br class=\"my-4\">\n  <br>\n  <br>\n  <div class=\"float-right\">\n    <button class=\"btn btn-primary btn-lg\" href=\"#\" role=\"button\" (click)=\"isEditing = !isEditing\">Edit Post</button>\n  </div>\n</div>\n<!-- form for editing -->\n<form  *ngIf=\"isEditing\">\n  <div class=\"form-group\">\n    <label class=\"h3\">Title</label>\n    <input type=\"text\" name=\"title\" class=\"form-control-lg form-control\" [(ngModel)]=\"editedTitle\" required>\n  </div>\n  <div class=\"form-group\">\n    <label class=\"h3\">Body</label>\n    <textarea type=\"textarea\" name=\"body\" class=\"form-control\" rows=10 [(ngModel)]=\"editedBody\" required></textarea>\n  </div>\n  <div class=\"float-right\">\n    <button type=\"button\" class=\"btn btn-info btn-lg mr-2\" href=\"#\" (click)=\"isEditing = !isEditing\" role=\"button\">Cancel</button>\n    <button type=\"button\" class=\"btn btn-primary btn-lg\" href=\"#\" (click)=\"updatePost()\" role=\"button\">Update Post</button>\n  </div>\n</form>\n</div>\n<hr class=\"my-4\">\n<h1 class=\"display-5\">Comments</h1>\n<app-commentlist></app-commentlist>\n</div>"
 
 /***/ }),
 
@@ -893,7 +916,7 @@ var PostComponent = /** @class */ (function () {
     };
     PostComponent.prototype.updatePost = function () {
         var _this = this;
-        var p = new src_app_post_module__WEBPACK_IMPORTED_MODULE_4__["Post"](this.post._id, this.post.author, this.editedTitle, this.editedBody, new Date());
+        var p = new src_app_post_module__WEBPACK_IMPORTED_MODULE_4__["Post"](this.post._id, this.post.author, this.editedTitle, this.editedBody, new Date(), this.post.visibility);
         this.postService.editPost(p).subscribe(function (res) {
             _this.post = res;
             _this.isEditing = !_this.isEditing;
@@ -939,15 +962,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _post_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../post.service */ "./src/app/post.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../auth.service */ "./src/app/auth.service.ts");
+
 
 
 
 
 var PostlistComponent = /** @class */ (function () {
-    function PostlistComponent(postService, router) {
+    function PostlistComponent(postService, router, authService) {
         var _this = this;
         this.postService = postService;
         this.router = router;
+        this.authService = authService;
         this.posts = [];
         this.router.events.subscribe(function (event) {
             if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_3__["NavigationEnd"]) {
@@ -964,14 +990,22 @@ var PostlistComponent = /** @class */ (function () {
     };
     PostlistComponent.prototype.getPosts = function () {
         var _this = this;
-        this.postService.getPosts().subscribe(function (posts) { return _this.posts = posts; });
+        this.postService.getPosts().subscribe(function (posts) {
+            if (_this.authService.isLoggedIn) {
+                _this.posts = posts;
+            }
+            else {
+                _this.posts = posts;
+                _this.posts = _this.posts.filter(function (post) { return post.visibility === "public"; });
+            }
+        });
     };
     PostlistComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-postlist',
             template: __webpack_require__(/*! ./postlist.component.html */ "./src/app/postlist/postlist.component.html")
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_post_service__WEBPACK_IMPORTED_MODULE_2__["PostService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_post_service__WEBPACK_IMPORTED_MODULE_2__["PostService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"], _auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]])
     ], PostlistComponent);
     return PostlistComponent;
 }());
