@@ -48,6 +48,10 @@ app.use(function(req, res, next) {
     next();
     return;
   }
+  else if(req.path.match("/post") && req.method === 'GET') {
+    next();
+    return;
+  }
   if(req.headers.authorization && 
       jwt.verify(req.headers.authorization, process.env.public_key, {algorithm: 'RS256'})) {
     next();

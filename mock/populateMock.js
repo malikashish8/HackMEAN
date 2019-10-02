@@ -25,6 +25,7 @@ function populateMock () {
         mockData.posts.forEach(post => {  
           post.author = _.sample(users).username;
           post.time = new Date(new Date() - 99999999999 * Math.random());
+          post.visibility = Math.random() > 0.5 ? 'public' : 'private';
         });
         Post.insertMany(mockData.posts, (err, posts) => {
           if(!err){

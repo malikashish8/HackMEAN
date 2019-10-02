@@ -42,6 +42,10 @@ var postSchema = mongoose.Schema({
   time: {
     type: Date,
     required: true
+  },
+  visibility: {
+    type: String,
+    require: true
   }
 })
 var commentSchema = mongoose.Schema({

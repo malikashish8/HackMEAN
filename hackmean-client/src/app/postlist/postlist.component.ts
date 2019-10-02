@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Post } from '../post.module';
 import { PostService } from '../post.service';
 import { Router, Event, NavigationEnd } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-postlist',
@@ -12,7 +13,7 @@ export class PostlistComponent implements OnInit {
   public posts: Post[] = [];
   public isPostSelected;
 
-  constructor(private postService: PostService, private router: Router) { 
+  constructor(private postService: PostService, private router: Router, private authService: AuthService) { 
     this.router.events.subscribe((event: Event) => {
       if(event instanceof NavigationEnd) {
         // resize things and focus on /post
@@ -28,6 +29,13 @@ export class PostlistComponent implements OnInit {
     this.getPosts();
   }
   getPosts(): void {
-    this.postService.getPosts().subscribe(posts => this.posts = <Post[]> posts)
+    this.postService.getPosts().subscribe((posts) => {
+      if(this.authService.isLoggedIn) {
+        this.posts = <Post[]> posts;
+      } else {
+        this.posts = <Post[]> posts;
+        this.posts = this.posts.filter(post => post.visibility === "public");
+      }
+    })
   }
 }

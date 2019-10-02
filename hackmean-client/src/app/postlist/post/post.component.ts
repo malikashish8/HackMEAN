@@ -38,7 +38,7 @@ export class PostComponent implements OnInit {
   }
 
   updatePost() {
-    let p = new Post(this.post._id, this.post.author, this.editedTitle, this.editedBody, new Date());
+    let p = new Post(this.post._id, this.post.author, this.editedTitle, this.editedBody, new Date(), this.post.visibility);
     this.postService.editPost(p).subscribe((res) => {
       this.post = <Post> res;
       this.isEditing = ! this.isEditing;
