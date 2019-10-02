@@ -9,8 +9,8 @@ import { AuthService } from '../auth.service';
 })
 export class HeaderComponent implements OnInit {
   showingMenu = false;
-  username = "Username";
-  password = "Password";
+  username = "";
+  password = "";
     
   loggedIn = false;
   httpOptions: any;

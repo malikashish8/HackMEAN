@@ -169,8 +169,11 @@ exports.get_post = function(req, res) {
     else if(!post || post.length === 0) {
       res.status(400).json({"message": "something went wrong"});
     }
-    else 
+    else if(post[0].visibility === "public" || req.user === post[0].author) {
       res.send(post[0]);
+    } else {
+      res.status(401).json({"message": "unauthorized"});
+    }
   });
 }
 

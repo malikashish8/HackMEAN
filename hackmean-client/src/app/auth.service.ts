@@ -67,20 +67,15 @@ export class AuthService {
   }
 
   logout() {
-    this.httpClient.get(this.baseURL + 'logout').subscribe(
-      () => {
-        this.alerts.setMessage('logged out', 'success');
-        localStorage.removeItem("id_token");
-        localStorage.removeItem("expires_at");
-        localStorage.removeItem("user");
-        this.httpOptions = {};
-        this.isLoggedIn = false;
-        this.loggedInUser = null;
-        this.router.navigateByUrl('/');
-      },
-      () => {
-        this.alerts.setMessage('logout failed', 'error');
-      } 
-    )
+    if(this.isLoggedIn) {
+      this.alerts.setMessage('logged out', 'success');
+    }
+    this.isLoggedIn = false;
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("expires_at");
+    localStorage.removeItem("user");
+    this.httpOptions = {};
+    this.loggedInUser = null;
+    this.router.navigateByUrl('/');
   }
 }

@@ -13,10 +13,8 @@
     </div>
   </div>
   <br class="my-4">
-  <br>
-  <br>
   <div class="float-right">
-    <button class="btn btn-primary btn-lg" href="#" role="button" (click)="isEditing = !isEditing">Edit Post</button>
+    <button class="btn btn-primary btn-lg" href="#" role="button" (click)="isEditing = !isEditing" [hidden]="! authService.isLoggedIn">Edit Post</button>
   </div>
 </div>
 <!-- form for editing -->

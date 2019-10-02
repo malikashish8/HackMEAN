@@ -14,7 +14,7 @@ const config = require('config')
 
 // check mongo connection
 mongoose.Promise = global.Promise;
-mongoose.connect(config.mongoURL, { useCreateIndex: true, useNewUrlParser: true });
+mongoose.connect(config.mongoURL, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true});
 
 //allow cors
 app.use(function(req, res, next) {
@@ -48,7 +48,19 @@ app.use(function(req, res, next) {
     next();
     return;
   }
-  else if(req.path.match(/^\/post$/) && req.method === 'GET') {
+  else if(req.path.match(/^\/post/) && req.method === 'GET') {
+    if(req.headers.authorization && req.headers.authorization.split(' ')[1]) {
+      jwt.verify(
+        req.headers.authorization.split(' ')[1], 
+        process.env.public_key, 
+        {algorithm: 'RS256'},
+        (err, decoded) => {
+          if(!err) {
+            req.user = decoded.sub;
+          }
+        }
+      );
+    }
     next();
     return;
   }
@@ -57,17 +69,21 @@ app.use(function(req, res, next) {
       req.headers.authorization.split(' ')[1], 
       process.env.public_key, 
       {algorithm: 'RS256'},
-      (err) => {
+      (err, decoded) => {
         if(err) {
-          res.status(401).send('Unauthorized');
+          res.status(401).json({"message": "unauthorized"});
           logger.warn('JWT verification error: ' + err.message);
           return;
         } else {
+          req.user = decoded.user;
           next();
         }
-      });
+      }
+    );
   }
-  else res.status(401).send('Unauthorized');
+  else {
+    res.status(401).json({"message": "unauthorized"});
+  }
 })
 
 var routes = require('./api/hackmean_routes');

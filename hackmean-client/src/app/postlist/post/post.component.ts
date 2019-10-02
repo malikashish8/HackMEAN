@@ -50,7 +50,11 @@ export class PostComponent implements OnInit {
     this.postService.editPost(p).subscribe((res) => {
       this.post = <Post> res;
       this.isEditing = ! this.isEditing;
-    });
+    },
     // Implement (error) => {}
+    (err) => {
+      if(err.status === 401)
+        this.authService.logout();
+    });
   }
 }

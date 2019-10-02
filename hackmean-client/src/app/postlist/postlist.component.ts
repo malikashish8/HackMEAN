@@ -28,14 +28,13 @@ export class PostlistComponent implements OnInit {
   ngOnInit() {
     this.getPosts();
   }
+
   getPosts(): void {
     this.postService.getPosts().subscribe((posts) => {
-      if(this.authService.isLoggedIn) {
-        this.posts = <Post[]> posts;
-      } else {
-        this.posts = <Post[]> posts;
-        this.posts = this.posts.filter(post => post.visibility === "public");
-      }
+      this.posts = <Post[]> posts;
+      this.posts = this.posts.filter((post) => {
+        return post.visibility === "public" || post.author === this.authService.loggedInUser;
+      });
     })
   }
 }

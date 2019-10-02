@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Event, NavigationEnd } from '@angular/router';
 import { PostComment } from 'src/app/postcomment.module';
 import { PostCommentService } from 'src/app/postcomment.service';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-commentlist',
@@ -10,7 +11,8 @@ import { PostCommentService } from 'src/app/postcomment.service';
 })
 export class CommentlistComponent implements OnInit {
   postComments: PostComment[] = [];
-  constructor(private route: ActivatedRoute, private router: Router, private postCommentService: PostCommentService) { 
+  constructor(private route: ActivatedRoute, private router: Router, private postCommentService: PostCommentService,
+    private authService: AuthService) { 
     router.events.subscribe((event: Event) => {
       if(event instanceof NavigationEnd) {
         this.ngOnInit();
