@@ -1,107 +1,116 @@
 {
-"users":[
-{
-   "username": "admin",
-   "password": "supersecuripassword98273*#(@(@",
-   "email": "admin@example.com" 
-},
-{
-    "username": "Ramu",
-    "password": "Ramu123",
-    "email": "Ramu@gmail.com"
-},
-{
-    "username": "Joe",
-    "password": "jo123",
-    "email": "jonny@gmail.com"
-},
-{
-    "username": "Alice",
-    "password": "Alice_secure123",
-    "email": "Alice@gmail.com"
-},
-{
-    "username": "j0ker",
-    "password": "h@ck_m3_1f_y0u_c@n",
-    "email": "cnaakdkkdowi@10minmail.com"
-}
-
-],
-"posts": [{
-    "author": "",
-    "title": "Can you make sense of This?",
-    "body": "Subjects to ecstatic children he. Could ye leave up as built match. Dejection agreeable attention set suspected led offending. Admitting an performed supposing by. Garden agreed matter are should formed temper had. Full held gay now roof whom such next was. Ham pretty our people moment put excuse narrow. Spite mirth money six above get going great own. Started now shortly had for assured hearing expense. Led juvenile his laughing speedily put pleasant relation offering.\n\nPleased him another was settled for. Moreover end horrible endeavor entrance any families. Income appear extent on of thrown in admire. Stanhill on we if vicinity material in. Saw him smallest you provided ecstatic supplied. Garret wanted expect remain as mr. Covered parlors concern we express in visited to do. Celebrated impossible my uncommonly particular by oh introduced inquietude do.",
-    "time": ""
-},
-    {
-        "title": "AngularJS",
-        "body": "AngularJS (commonly referred to as \"Angular.js\" or \"AngularJS 1.X\") is a JavaScript-based open-source front-end web application framework mainly maintained by Google and by a community of individuals and corporations to address many of the challenges encountered in developing single-page applications. The JavaScript components complement Apache Cordova, a framework used for developing cross-platform mobile apps. It aims to simplify both the development and the testing of such applications by providing a framework for client-side model–view–controller (MVC) and model–view–viewmodel (MVVM) architectures, along with components commonly used in rich Internet applications. In 2014, the original AngularJS team began working on Angular (Application Platform)."
-    },
-    {
-        "title": "Node.js",
-        "body": "Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code server-side. Historically, JavaScript was used primarily for client-side scripting, in which scripts written in JavaScript are embedded in a webpage's HTML and run client-side by a JavaScript engine in the user's web browser. Node.js lets developers use JavaScript for server-side scripting—running scripts server-side to produce dynamic web page content before the page is sent to the user's web browser. Consequently, Node.js represents a \"JavaScript everywhere\" paradigm,[5] unifying web application development around a single programming language, rather than different languages for server side and client side scripts."
-    },
-    {
-        "title": "MongoDB",
-        "body": "MongoDB is a free and open-source cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with schemas. MongoDB is developed by MongoDB Inc., and is published under a combination of the GNU Affero General Public License and the Apache License."
-    },
-    {
-        "title": "Express",
-        "body": "Express.js, or simply Express, is a web application framework for Node.js, released as free and open-source software under the MIT License. It is designed for building web applications and APIs.[1] It has been called the de facto standard server framework for Node.js.[2] The original author, TJ Holowaychuk, described it as a Sinatra-inspired server,[3] meaning that it is relatively minimal with many features available as plugins. Express is the backend part of the MEAN stack, together with MongoDB database and AngularJS frontend framework."
-    }
-],
-"comments":[{
-    "user": "Alice",
-    "message": "Are you serious",
-    "postId": "",
-    "time": ""
-},
-    {
-        "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
-    },
-    {
-        "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
-    },
-    {
-        "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
-    },
-    {
-        "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
-    },
-    {
-        "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
-    },
-    {
-        "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
-    },
-    {
-        "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
-    },
-    {
-        "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
-    },
-    {
-        "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
-    },
-    {
-        "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
-    },
-    {
-        "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
-    },
-    {
-        "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
-    },
-    {
-        "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
-    },
-    {
-        "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
-    },
-    {
-        "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
-    },
-    {
-        "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
-    }]
+    "users": [
+        {
+            "username": "admin",
+            "password": "supersecuripassword98273*#(@(@",
+            "email": "admin@example.com"
+        },
+        {
+            "username": "Ramu",
+            "password": "Ramu123",
+            "email": "Ramu@gmail.com"
+        },
+        {
+            "username": "Joe",
+            "password": "jo123",
+            "email": "jonny@gmail.com"
+        },
+        {
+            "username": "Alice",
+            "password": "Alice_secure123",
+            "email": "Alice@gmail.com"
+        },
+        {
+            "username": "j0ker",
+            "password": "h@ck_m3_1f_y0u_c@n",
+            "email": "cnaakdkkdowi@10minmail.com"
+        }
+    ],
+    "posts": [
+        {
+            "title": "MEAN",
+            "body": "MEAN is a free and open-source JavaScript software stack for building dynamic web sites and web applications.The MEAN stack is MongoDB, Express.js, AngularJS (or Angular), and Node.js. Because all components of the MEAN stack support programs that are written in JavaScript, MEAN applications can be written in one language for both server-side and client-side execution environments."
+        },
+        {
+            "title": "JavaScript Beginning at Netscapte",
+            "body": "In 1993, the National Center for Supercomputing Applications (NCSA), a unit of the University of Illinois at Urbana-Champaign, released NCSA Mosaic, the first popular graphical Web browser, which played an important part in expanding the growth of the nascent World Wide Web beyond the NeXTSTEP niche where the WorldWideWeb had formed three years earlier. In 1994, a company called Mosaic Communications was founded in Mountain View, California and employed many of the original NCSA Mosaic authors to create Mosaic Netscape. However, it intentionally shared no code with NCSA Mosaic. The internal codename for the company's browser was Mozilla, a portmanteau of \"Mosaic and Godzilla\". The first version of the Web browser, Mosaic Netscape 0.9, was released in late 1994. Within four months it had already taken three-quarters of the browser market and became the main web browser for the 1990s. To avoid trademark ownership problems with the NCSA, the browser was subsequently renamed Netscape Navigator in the same year, and the company took the name Netscape Communications. Netscape Communications realized that the Web needed to become more dynamic. Marc Andreessen, the founder of the company, believed that HTML needed a \"glue language\" that was easy to use by Web designers and part-time programmers to assemble components such as images and plugins, where the code could be written directly in the Web page markup."
+        },
+        {
+            "title": "Lorem Ipsum",
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        },
+        {
+            "title": "Can you make sense of This?",
+            "body": "Subjects to ecstatic children he. Could ye leave up as built match. Dejection agreeable attention set suspected led offending. Admitting an performed supposing by. Garden agreed matter are should formed temper had. Full held gay now roof whom such next was. Ham pretty our people moment put excuse narrow. Spite mirth money six above get going great own. Started now shortly had for assured hearing expense. Led juvenile his laughing speedily put pleasant relation offering.\n\nPleased him another was settled for. Moreover end horrible endeavor entrance any families. Income appear extent on of thrown in admire. Stanhill on we if vicinity material in. Saw him smallest you provided ecstatic supplied. Garret wanted expect remain as mr. Covered parlors concern we express in visited to do. Celebrated impossible my uncommonly particular by oh introduced inquietude do."
+        },
+        {
+            "title": "AngularJS",
+            "body": "AngularJS (commonly referred to as \"Angular.js\" or \"AngularJS 1.X\") is a JavaScript-based open-source front-end web application framework mainly maintained by Google and by a community of individuals and corporations to address many of the challenges encountered in developing single-page applications. The JavaScript components complement Apache Cordova, a framework used for developing cross-platform mobile apps. It aims to simplify both the development and the testing of such applications by providing a framework for client-side model–view–controller (MVC) and model–view–viewmodel (MVVM) architectures, along with components commonly used in rich Internet applications. In 2014, the original AngularJS team began working on Angular (Application Platform)."
+        },
+        {
+            "title": "Node.js",
+            "body": "Node.js is an open-source, cross-platform JavaScript run-time environment that executes JavaScript code server-side. Historically, JavaScript was used primarily for client-side scripting, in which scripts written in JavaScript are embedded in a webpage's HTML and run client-side by a JavaScript engine in the user's web browser. Node.js lets developers use JavaScript for server-side scripting—running scripts server-side to produce dynamic web page content before the page is sent to the user's web browser. Consequently, Node.js represents a \"JavaScript everywhere\" paradigm,[5] unifying web application development around a single programming language, rather than different languages for server side and client side scripts."
+        },
+        {
+            "title": "MongoDB",
+            "body": "MongoDB is a free and open-source cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with schemas. MongoDB is developed by MongoDB Inc., and is published under a combination of the GNU Affero General Public License and the Apache License."
+        },
+        {
+            "title": "Express",
+            "body": "Express.js, or simply Express, is a web application framework for Node.js, released as free and open-source software under the MIT License. It is designed for building web applications and APIs.[1] It has been called the de facto standard server framework for Node.js.[2] The original author, TJ Holowaychuk, described it as a Sinatra-inspired server,[3] meaning that it is relatively minimal with many features available as plugins. Express is the backend part of the MEAN stack, together with MongoDB database and AngularJS frontend framework."
+        }
+    ],
+    "comments": [
+        {
+            "message": "Are you serious"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        },
+        {
+            "message": "Well I know most about this but reading this is quite enlightening. Thanks for posting this. Much Appreciated!"
+        },
+        {
+            "message": "Ringa ringa ringa ringa ringa rainga ring!!!"
+        }
+    ]
 }

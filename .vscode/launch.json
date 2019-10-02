@@ -17,7 +17,7 @@
                 "--colors",
                 "${workspaceFolder}/test",
                 "--file",
-                "Server.js",
+                "index.js",
                 "--require",
                 "mocha-steps",
                 "--exit"
@@ -28,7 +28,7 @@
             "type": "node",
             "request": "launch",
             "name": "Run",
-            "program": "${workspaceFolder}/Server.js"
+            "program": "${workspaceFolder}/index.js"
         }
     ]
 }

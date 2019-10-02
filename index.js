@@ -1,7 +1,7 @@
 var express = require('express'),
   app = express(),
   mongoose = require('mongoose'),
-  user = require('./api/hackmean_model'),
+  {User} = require('./api/hackmean_model'),
   controller = require('./api/hackmean_controller'),
   bodyParser = require('body-parser');
 var morgan = require('morgan');
@@ -61,5 +61,13 @@ routes(app);
 app.listen(config.listenPort);
 logger.info('HackMEAN application running at http://127.0.0.1:' + config.listenPort);
 
-// pre-populate db
-require('./mock/populateMock').populateMock();
+// populate dummy data in db from ./mock
+User.findOne((err, res) => {
+  if(!res) {
+    require('./mock/populateMock').populateMock();
+  }
+  if(err) {
+    logger.error("unable to connect to the DB to populate mock");
+    process.exit(1);
+  }
+})
