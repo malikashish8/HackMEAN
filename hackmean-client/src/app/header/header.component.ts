@@ -11,11 +11,17 @@ export class HeaderComponent implements OnInit {
   showingMenu = false;
   username = "Username";
   password = "Password";
-  
+    
   loggedIn = false;
   httpOptions: any;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) { 
+    if(authService.isLoggedIn) {
+      this.loggedIn = true;
+      this.username = authService.loggedInUser;
+      this.httpOptions = authService.httpOptions;
+    }
+  }
 
   ngOnInit() { }
 

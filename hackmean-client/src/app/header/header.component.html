@@ -17,7 +17,7 @@
       <input class="form-control m-2" type="text" name="username" placeholder="Username" [(ngModel)]="username" aria-label="Name" [hidden]="loggedIn">
       <input class="form-control m-2" type="password" name="password"  [(ngModel)]="password" aria-label="Password" [hidden]="loggedIn"> 
       <button class="btn btn-outline-light m-2" type="submit" (click)="login()" [hidden]="loggedIn">Login</button>
-      <button class="btn btn-outline-light m-2" type="submit" (click)="logout()" [hidden]="!loggedIn">Logout</button>
+      <button class="btn btn-outline-light m-2" type="submit" (click)="logout()" [hidden]="!loggedIn">Logout {{username}}</button>
     </form>
   </div>
  </nav>

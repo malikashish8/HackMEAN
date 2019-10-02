@@ -4,5 +4,5 @@
   "listenPort": 8888,
   "logLevel": "debug",
   "morganFormat": "dev",
-  "sessionValidity": 120
+  "sessionValidity": 1200
 }

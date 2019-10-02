@@ -9,13 +9,26 @@ import * as moment from "moment";
   providedIn: 'root'
 })
 export class AuthService {
-  public isLoggedIn
   private baseURL = AppSettings.apiUrl;
+  
+  public isLoggedIn: boolean;
   public httpOptions = {};
+  public loggedInUser: string;
 
-  constructor(private httpClient: HttpClient, private alerts: AlertsService, private router: Router) { }
+  constructor(private httpClient: HttpClient, private alerts: AlertsService, private router: Router) { 
+    // check if a valid credentials exist in browser local storage
+    let id_token = localStorage.getItem('id_token');
+    let expires_at = localStorage.getItem('expires_at');
+    if (id_token && expires_at && moment(expires_at, "x") > moment()){
+      this.httpOptions = {headers: new HttpHeaders({'Authorization': id_token})};
+      this.isLoggedIn = true;
+      this.loggedInUser = localStorage.getItem('user');
+    } else {
+      this.logout();
+    }
+  }
 
-  login(username: String, password: String): Promise<any> {
+  login(username: string, password: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.httpClient.post<any>(this.baseURL + 'login',
       {
@@ -27,15 +40,17 @@ export class AuthService {
           this.alerts.setMessage('login successful', 'success');
           let expiresAt = moment().add(resp['expiresIn'], 'second');
           localStorage.setItem('id_token', resp['token']);
-          localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
+          localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
+          localStorage.setItem("user", username);
           
-
           this.httpOptions = {
             headers: new HttpHeaders({
               'Authorization': localStorage.getItem('id_token')
             })
           };
-          
+          this.isLoggedIn = true;
+          this.loggedInUser = username;
+
           let timeoutTime = (expiresAt.valueOf()) - (new Date).getTime();
           setTimeout(() => {
             this.logout();
@@ -57,10 +72,13 @@ export class AuthService {
         this.alerts.setMessage('logged out', 'success');
         localStorage.removeItem("id_token");
         localStorage.removeItem("expires_at");
+        localStorage.removeItem("user");
         this.httpOptions = {};
+        this.isLoggedIn = false;
+        this.loggedInUser = null;
       },
       () => {
-        this.alerts.setMessage('loggout failed', 'error');
+        this.alerts.setMessage('logout failed', 'error');
       } 
     )
   }
