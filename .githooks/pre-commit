@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# check if dev has forgotten to updated build when client is changed
+isClientChanged=$(git status | grep -e '\shackmean-client' | wc -l)
+isClientBuildUpdated=$(git status | grep -e '\spublic' | wc -l)
+
+if [ ${isClientChanged} -gt 0 ] && [ ${isClientBuildUpdated} -eq 0 ]; then
+	echo "GIT_HOOK:pre-commit> Rebuilding client since client code has been updated."
+	cd hackmean-client && npm run build && cd ..
+	echo "GIT_HOOK:pre-commit> Adding public folder to git commit"
+	git add public
+	exit 0 
+fi
+
