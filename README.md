@@ -4,6 +4,8 @@
 
 Intentionally vulnerable app built on MEAN stack (MongoDB, Express, Angular and Node.js). This app demonstrates common vulnerabilities in the MEAN stack. The challenge is find all the vulnerabilites by running the application (pentest) or by looking at the code (code-review) without reading [Vulnerabilites.md](./Vulnerabilites.md).
 
+![screenshot](./hackmean-client/src/assets/Screenshot_2019-10-04_HackmeanClient.png)
+
 ## Run with Docker Compose
 
 With docker-compose you can run this application and mongodb in one go:
