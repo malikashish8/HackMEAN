@@ -379,7 +379,7 @@ var AppSettings = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<main class=\"container pt-5 mt-5\">\n  <router-outlet></router-outlet>\n</main>\n\n"
+module.exports = "<app-header></app-header>\n<main class=\"container pt-2 mt-2\">\n  <router-outlet></router-outlet>\n</main>\n\n"
 
 /***/ }),
 
@@ -518,7 +518,7 @@ var AuthService = /** @class */ (function () {
         var id_token = localStorage.getItem('id_token');
         var expires_at = localStorage.getItem('expires_at');
         if (id_token && expires_at && moment__WEBPACK_IMPORTED_MODULE_6__(expires_at, "x") > moment__WEBPACK_IMPORTED_MODULE_6__()) {
-            this.httpOptions = { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': id_token }) };
+            this.httpOptions = { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({ 'Authorization': "Bearer " + id_token }) };
             this.isLoggedIn = true;
             this.loggedInUser = localStorage.getItem('user');
         }
@@ -540,7 +540,7 @@ var AuthService = /** @class */ (function () {
                 localStorage.setItem("user", username);
                 _this.httpOptions = {
                     headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-                        'Authorization': localStorage.getItem('id_token')
+                        'Authorization': "Bearer " + localStorage.getItem('id_token')
                     })
                 };
                 _this.isLoggedIn = true;
@@ -558,18 +558,16 @@ var AuthService = /** @class */ (function () {
         });
     };
     AuthService.prototype.logout = function () {
-        var _this = this;
-        this.httpClient.get(this.baseURL + 'logout').subscribe(function () {
-            _this.alerts.setMessage('logged out', 'success');
-            localStorage.removeItem("id_token");
-            localStorage.removeItem("expires_at");
-            localStorage.removeItem("user");
-            _this.httpOptions = {};
-            _this.isLoggedIn = false;
-            _this.loggedInUser = null;
-        }, function () {
-            _this.alerts.setMessage('logout failed', 'error');
-        });
+        if (this.isLoggedIn) {
+            this.alerts.setMessage('logged out', 'success');
+        }
+        this.isLoggedIn = false;
+        localStorage.removeItem("id_token");
+        localStorage.removeItem("expires_at");
+        localStorage.removeItem("user");
+        this.httpOptions = {};
+        this.loggedInUser = null;
+        this.router.navigateByUrl('/');
     };
     AuthService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -591,7 +589,7 @@ var AuthService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" (click)=\"showMenu()\" data-target=\"#navbarTogglerDemo03\" aria-controls=\"navbarTogglerDemo03\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <a class=\"navbar-brand display-3 font-weight-bold\" href=\"#\">HackMEAN</a>\n  \n  <div class=\"collapse navbar-collapse\" [ngClass]=\"{ show: showingMenu }\" id=\"navbarToggler03\">\n    <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" href=\"#\">Home <span class=\"sr-only\">(current)</span></a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">Link</a>\n      </li>\n    </ul>\n    <form class=\"form-inline my-2 my-lg-0\">\n      <input class=\"form-control m-2\" type=\"text\" name=\"username\" placeholder=\"Username\" [(ngModel)]=\"username\" aria-label=\"Name\" [hidden]=\"loggedIn\">\n      <input class=\"form-control m-2\" type=\"password\" name=\"password\"  [(ngModel)]=\"password\" aria-label=\"Password\" [hidden]=\"loggedIn\"> \n      <button class=\"btn btn-outline-light m-2\" type=\"submit\" (click)=\"login()\" [hidden]=\"loggedIn\">Login</button>\n      <button class=\"btn btn-outline-light m-2\" type=\"submit\" (click)=\"logout()\" [hidden]=\"!loggedIn\">Logout {{username}}</button>\n    </form>\n  </div>\n </nav>\n <app-alerts></app-alerts>"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" (click)=\"showMenu()\" data-target=\"#navbarTogglerDemo03\" aria-controls=\"navbarTogglerDemo03\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <a class=\"navbar-brand display-3 font-weight-bold\" href=\"#\">HackMEAN</a>\n  \n  <div class=\"collapse navbar-collapse\" [ngClass]=\"{ show: showingMenu }\" id=\"navbarToggler03\">\n    <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">\n      <li class=\"nav-item active\">\n        <a class=\"nav-link\" href=\"#\">Home <span class=\"sr-only\">(current)</span></a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" href=\"#\">Link</a>\n      </li>\n    </ul>\n    <form class=\"form-inline my-2 my-lg-0\">\n      <input class=\"form-control m-2\" type=\"text\" name=\"username\" placeholder=\"Username\" [(ngModel)]=\"username\" aria-label=\"Name\" [hidden]=\"loggedIn\">\n      <input class=\"form-control m-2\" type=\"password\" name=\"password\"  placeholder=\"Password\" [(ngModel)]=\"password\" aria-label=\"Password\" [hidden]=\"loggedIn\"> \n      <button class=\"btn btn-outline-light m-2\" type=\"submit\" (click)=\"login()\" [hidden]=\"loggedIn\">Login</button>\n      <button class=\"btn btn-outline-light m-2\" type=\"submit\" (click)=\"logout()\" [hidden]=\"!loggedIn\">Logout {{username}}</button>\n    </form>\n  </div>\n </nav>\n <app-alerts></app-alerts>"
 
 /***/ }),
 
@@ -615,8 +613,8 @@ var HeaderComponent = /** @class */ (function () {
     function HeaderComponent(authService) {
         this.authService = authService;
         this.showingMenu = false;
-        this.username = "Username";
-        this.password = "Password";
+        this.username = "";
+        this.password = "";
         this.loggedIn = false;
         if (authService.isLoggedIn) {
             this.loggedIn = true;
@@ -796,7 +794,7 @@ var PostCommentService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card my-2 bg-light\" *ngFor=\"let postComment of postComments\">\n  <div class=\"card-body\">\n    <div class=\"font-italic\">{{ postComment.user }} commented on {{ postComment.time | date:\"medium\" }}</div>  \n    <p class=\"card-text\">{{ postComment.message }}</p>\n    <div class=\"float-right\">\n      <button class=\"btn btn-outline-danger\" href=\"#\" role=\"button\" (click)=\"deleteComment(postComment._id)\">Delete Comment</button>\n    </div>\n  </div>\n</div>\n<div *ngIf=\"postComments.length === 0\" class=\"alert alert-dark\">\n  <div>No comments for this post yet</div>\n</div>"
+module.exports = "<div class=\"card my-2 bg-light\" *ngFor=\"let postComment of postComments\">\n  <div class=\"card-body\">\n    <div class=\"font-italic\">{{ postComment.user }} commented on {{ postComment.time | date:\"medium\" }}</div>  \n    <p class=\"card-text\">{{ postComment.message }}</p>\n    <div class=\"float-right\">\n      <button class=\"btn btn-outline-danger\" href=\"#\" role=\"button\" (click)=\"deleteComment(postComment._id)\" [hidden]=\"! this.authService.isLoggedIn\">Delete Comment</button>\n    </div>\n  </div>\n</div>\n<div *ngIf=\"postComments.length === 0\" class=\"alert alert-dark\">\n  <div>No comments for this post yet</div>\n</div>"
 
 /***/ }),
 
@@ -814,16 +812,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var src_app_postcomment_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/postcomment.service */ "./src/app/postcomment.service.ts");
+/* harmony import */ var src_app_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/auth.service */ "./src/app/auth.service.ts");
+
 
 
 
 
 var CommentlistComponent = /** @class */ (function () {
-    function CommentlistComponent(route, router, postCommentService) {
+    function CommentlistComponent(route, router, postCommentService, authService) {
         var _this = this;
         this.route = route;
         this.router = router;
         this.postCommentService = postCommentService;
+        this.authService = authService;
         this.postComments = [];
         router.events.subscribe(function (event) {
             if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_2__["NavigationEnd"]) {
@@ -849,7 +850,8 @@ var CommentlistComponent = /** @class */ (function () {
             selector: 'app-commentlist',
             template: __webpack_require__(/*! ./commentlist.component.html */ "./src/app/postlist/post/commentlist/commentlist.component.html")
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], src_app_postcomment_service__WEBPACK_IMPORTED_MODULE_3__["PostCommentService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], src_app_postcomment_service__WEBPACK_IMPORTED_MODULE_3__["PostCommentService"],
+            src_app_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]])
     ], CommentlistComponent);
     return CommentlistComponent;
 }());
@@ -865,7 +867,7 @@ var CommentlistComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"post\">\n<div class=\"jumbotron clearfix py-2\">\n  <div [hidden]=\"isEditing\">\n  <h1 class=\"display-4\">{{ post.title }}</h1>\n  <p class=\"lead\">{{ post.body }}</p>\n  <hr class=\"my-4\">\n  <div>\n    <div class=\"float-left\">\n      <p>{{ post.time | date: 'fullDate'}}</p>\n    </div>\n    <div class=\"float-right\">\n      <p>posted {{ post.visibility }}ly by {{ post.author }}</p>\n    </div>\n  </div>\n  <br class=\"my-4\">\n  <br>\n  <br>\n  <div class=\"float-right\">\n    <button class=\"btn btn-primary btn-lg\" href=\"#\" role=\"button\" (click)=\"isEditing = !isEditing\">Edit Post</button>\n  </div>\n</div>\n<!-- form for editing -->\n<form  *ngIf=\"isEditing\">\n  <div class=\"form-group\">\n    <label class=\"h3\">Title</label>\n    <input type=\"text\" name=\"title\" class=\"form-control-lg form-control\" [(ngModel)]=\"editedTitle\" required>\n  </div>\n  <div class=\"form-group\">\n    <label class=\"h3\">Body</label>\n    <textarea type=\"textarea\" name=\"body\" class=\"form-control\" rows=10 [(ngModel)]=\"editedBody\" required></textarea>\n  </div>\n  <div class=\"float-right\">\n    <button type=\"button\" class=\"btn btn-info btn-lg mr-2\" href=\"#\" (click)=\"isEditing = !isEditing\" role=\"button\">Cancel</button>\n    <button type=\"button\" class=\"btn btn-primary btn-lg\" href=\"#\" (click)=\"updatePost()\" role=\"button\">Update Post</button>\n  </div>\n</form>\n</div>\n<hr class=\"my-4\">\n<h1 class=\"display-5\">Comments</h1>\n<app-commentlist></app-commentlist>\n</div>"
+module.exports = "<div *ngIf=\"post\">\n<div class=\"jumbotron clearfix py-2\">\n  <div [hidden]=\"isEditing\">\n  <h1 class=\"display-4\">{{ post.title }}</h1>\n  <p class=\"lead\">{{ post.body }}</p>\n  <hr class=\"my-4\">\n  <div>\n    <div class=\"float-left\">\n      <p>{{ post.time | date: 'fullDate'}}</p>\n    </div>\n    <div class=\"float-right\">\n      <p>posted {{ post.visibility }}ly by {{ post.author }}</p>\n    </div>\n  </div>\n  <br class=\"my-4\">\n  <div class=\"float-right\">\n    <button class=\"btn btn-primary btn-lg\" href=\"#\" role=\"button\" (click)=\"isEditing = !isEditing\" [hidden]=\"! authService.isLoggedIn\">Edit Post</button>\n  </div>\n</div>\n<!-- form for editing -->\n<form  *ngIf=\"isEditing\">\n  <div class=\"form-group\">\n    <label class=\"h3\">Title</label>\n    <input type=\"text\" name=\"title\" class=\"form-control-lg form-control\" [(ngModel)]=\"editedTitle\" required>\n  </div>\n  <div class=\"form-group\">\n    <label class=\"h3\">Body</label>\n    <textarea type=\"textarea\" name=\"body\" class=\"form-control\" rows=10 [(ngModel)]=\"editedBody\" required></textarea>\n  </div>\n  <div class=\"float-right\">\n    <button type=\"button\" class=\"btn btn-info btn-lg mr-2\" href=\"#\" (click)=\"isEditing = !isEditing\" role=\"button\">Cancel</button>\n    <button type=\"button\" class=\"btn btn-primary btn-lg\" href=\"#\" (click)=\"updatePost()\" role=\"button\">Update Post</button>\n  </div>\n</form>\n</div>\n<hr class=\"my-4\">\n<h1 class=\"display-5\">Comments</h1>\n<app-commentlist></app-commentlist>\n</div>"
 
 /***/ }),
 
@@ -884,17 +886,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var src_app_post_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/post.service */ "./src/app/post.service.ts");
 /* harmony import */ var src_app_post_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/post.module */ "./src/app/post.module.ts");
+/* harmony import */ var src_app_auth_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/auth.service */ "./src/app/auth.service.ts");
+
 
 
 
 
 
 var PostComponent = /** @class */ (function () {
-    function PostComponent(route, router, postService) {
+    function PostComponent(route, router, postService, authService) {
         var _this = this;
         this.route = route;
         this.router = router;
         this.postService = postService;
+        this.authService = authService;
         this.router.events.subscribe(function (event) {
             if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_2__["NavigationEnd"]) {
                 // ToDo: resize things and focus on /post
@@ -912,6 +917,9 @@ var PostComponent = /** @class */ (function () {
             _this.isEditing = false;
             _this.editedBody = _this.post.body;
             _this.editedTitle = _this.post.title;
+        }, function (err) {
+            if (err.status === 401)
+                _this.authService.logout();
         });
     };
     PostComponent.prototype.updatePost = function () {
@@ -920,15 +928,20 @@ var PostComponent = /** @class */ (function () {
         this.postService.editPost(p).subscribe(function (res) {
             _this.post = res;
             _this.isEditing = !_this.isEditing;
-        });
+        }, 
         // Implement (error) => {}
+        function (err) {
+            if (err.status === 401)
+                _this.authService.logout();
+        });
     };
     PostComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-post',
             template: __webpack_require__(/*! ./post.component.html */ "./src/app/postlist/post/post.component.html")
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], src_app_post_service__WEBPACK_IMPORTED_MODULE_3__["PostService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], src_app_post_service__WEBPACK_IMPORTED_MODULE_3__["PostService"],
+            src_app_auth_service__WEBPACK_IMPORTED_MODULE_5__["AuthService"]])
     ], PostComponent);
     return PostComponent;
 }());
@@ -944,7 +957,7 @@ var PostComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"jumbotron py-2\"><div class=\"h1\">Posts</div></div>\n<div class=\"row py-2\">\n\t<div class=\"col\" > <!-- [ngClass]=\"isPostSelected ? col-lg-4 : col\"> -->\n    <div *ngFor=\"let post of posts\" class=\"py-1\">\n    <a routerLink=\"/post/{{post._id}}\" class=\"card border-secondary\">\n    <div class=\"card-body\">\n        <h5 class=\"card-title\">{{post.title}}</h5>\n        <h6 class=\"card-subtitle mb-2 text-muted\">{{ post.time | date:\"fullDate\" }}</h6>\n        <p class=\"card-text\">{{ post.body | slice: 0 : 100 }}...</p>\n    </div>\n    </a>  \n  </div>\n</div>\n<div [hidden]=\"!isPostSelected\" class=\"col col-lg-8 col-md-12 col-sm-12 col-12\">\n  <app-post></app-post>\n</div>\n</div>\n\n"
+module.exports = "\n<div class=\"jumbotron py-2\">\n  <div class=\"h1\">Posts<span class=\"badge badge-primary p-1 ml-2\">{{ posts.length }}</span></div>\n</div>\n<div class=\"row py-2\">\n\t<div class=\"col\" > <!-- [ngClass]=\"isPostSelected ? col-lg-4 : col\"> -->\n    <div *ngFor=\"let post of posts\" class=\"py-1\">\n    <a routerLink=\"/post/{{post._id}}\" class=\"card border-secondary\">\n    <div class=\"card-body\">\n        <h5 class=\"card-title\">{{post.title}}</h5>\n        <h6 class=\"card-subtitle mb-2 text-muted\">{{ post.time | date:\"fullDate\" }}</h6>\n        <p class=\"card-text\">{{ post.body | slice: 0 : 100 }}...</p>\n    </div>\n    </a>  \n  </div>\n</div>\n<div [hidden]=\"!isPostSelected\" class=\"col col-lg-8 col-md-12 col-sm-12 col-12\">\n  <app-post></app-post>\n</div>\n</div>\n\n"
 
 /***/ }),
 
@@ -991,13 +1004,10 @@ var PostlistComponent = /** @class */ (function () {
     PostlistComponent.prototype.getPosts = function () {
         var _this = this;
         this.postService.getPosts().subscribe(function (posts) {
-            if (_this.authService.isLoggedIn) {
-                _this.posts = posts;
-            }
-            else {
-                _this.posts = posts;
-                _this.posts = _this.posts.filter(function (post) { return post.visibility === "public"; });
-            }
+            _this.posts = posts;
+            _this.posts = _this.posts.filter(function (post) {
+                return post.visibility === "public" || post.author === _this.authService.loggedInUser;
+            });
         });
     };
     PostlistComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
