@@ -5,7 +5,7 @@
 <div class="row py-2">
 	<div class="col" > <!-- [ngClass]="isPostSelected ? col-lg-4 : col"> -->
     <div *ngFor="let post of posts" class="py-1">
-    <a routerLink="/post/{{post._id}}" class="card border-secondary">
+    <a routerLink="/post/{{post._id}}" class="card" [ngClass]="{'text-white, bg-dark': isPostSelected === post._id}">
     <div class="card-body">
         <h5 class="card-title">{{post.title}}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ post.time | date:"fullDate" }}</h6>
