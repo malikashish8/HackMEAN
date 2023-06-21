@@ -17,7 +17,7 @@
     "config": "^3.2.2",
     "express": "^4.13.4",
     "fs": "0.0.1-security",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.10",
     "mongoose": "^5.0.6",
     "morgan": "^1.9.0",
